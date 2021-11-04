@@ -17,16 +17,16 @@ Es gibt folgende Routen:
 
 ### GET /
 Argument | Required | Beschreibung
--        | -      | -
+---      | ---    | ---
 owner    | [ ]    | Integer : Besitzer ID des Kommentars
 
 ### GET /:path
 Argument | Required | Beschreibung
--        | -      | -
+---      | ---    | ---
 ---      | ---    | ---
 
 ### POST /
 Argument | Required | Beschreibung
--        | -      | -
+---      | ---    | ---
 owner    | [ ]    | Integer : Besitzer ID des Kommentars
 content  | [x]    | String  : Inhalt des Kommentares
