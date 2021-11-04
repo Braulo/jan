@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.get('/', (req, res, next) => {
-  connection.query(req.body.owner ? 'SELECT * FROM comments WHERE owner = ?' : 'SELECT * FROM comments', [req.body.owner])
+  connection.query(req.query.owner ? 'SELECT * FROM comments WHERE owner = ?' : 'SELECT * FROM comments', [req.query.owner])
     .then(([rows]) => res.json(rows))
     .catch(next)
 })
