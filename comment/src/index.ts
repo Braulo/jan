@@ -1,6 +1,5 @@
 import express from 'express'
 import process from 'process'
-import bodyParser from 'body-parser'
 import { AddressInfo } from 'net'
 
 const app = express()
@@ -16,11 +15,11 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({extended: true}));
+app.use(express.json())
 
 app.get('/:path', (req, res) => {
-
+  
 })
 
 app.post('/:path', (req, res) => {
