@@ -3,15 +3,14 @@
 
   <nav>
     <ul class="navbar-links">
-      <li>Login</li>
       <li>Einkaufsliste</li>
       <li>
-        <mat-icon>account_circle</mat-icon>
+        <button color="foreground" mat-icon-button (click)="openAuthdialog()">
+          <mat-icon class="icon" onselectstart="return false" aria-hidden="false">account_circle</mat-icon>
+        </button>
       </li>
       <li>
-        <!-- <mat-icon *ngIf="currentTheme === 'dark'">brightness_high</mat-icon>
-        <mat-icon *ngIf="currentTheme === 'light'">bedtime</mat-icon> -->
-        <button mat-icon-button (click)="toggleTheme()">
+        <button color="foreground" mat-icon-button (click)="toggleTheme()">
           <mat-icon class="icon" onselectstart="return false" aria-hidden="false">
             {{ this.currentTheme === 'dark-theme' ? 'brightness_high' : 'bedtime' }}</mat-icon
           >

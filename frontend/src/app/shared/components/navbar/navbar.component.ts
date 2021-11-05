@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 
 @Component({
   selector: 'jan-navbar',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   public currentTheme: string;
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {
     const themeLocalStorage = localStorage.getItem('theme');
@@ -28,5 +30,12 @@ export class NavbarComponent implements OnInit {
     document.body.classList.add(theme);
     localStorage.setItem('theme', theme);
     this.currentTheme = theme;
+  }
+
+  openAuthdialog(): void {
+    const dialogRef = this.dialog.open(AuthDialogComponent);
+    dialogRef.afterClosed().subscribe((res) => {
+      console.log('test after closed', res);
+    });
   }
 }

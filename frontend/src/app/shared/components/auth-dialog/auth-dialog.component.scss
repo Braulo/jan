@@ -1,16 +1,15 @@
 @use '~@angular/material' as mat;
 
-@mixin app-component-theme($theme) {
+@mixin authdialog-component-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, danger);
   $background: mat.get-color-from-palette(map-get($theme, background), background);
   $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
 
-  .main {
-    height: 100vh;
-    width: 100vw;
-    background-color: $background;
-    color: $foreground;
+  .auth-dialog-wrapper {
+    p {
+      cursor: pointer;
+    }
   }
 }

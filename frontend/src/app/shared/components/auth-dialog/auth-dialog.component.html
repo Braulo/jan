@@ -1,0 +1,11 @@
+<div class="auth-dialog-wrapper">
+  <div *ngIf="isLogin; else register">
+    <jan-login></jan-login>
+    <p (click)="isLogin = !isLogin">Register here!</p>
+  </div>
+
+  <ng-template #register>
+    <jan-register></jan-register>
+    <p (click)="isLogin = !isLogin">Login here!</p>
+  </ng-template>
+</div>

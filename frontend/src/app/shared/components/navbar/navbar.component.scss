@@ -1,18 +1,27 @@
-.navbar-wrapper {
-  background-color: red;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+@use '~@angular/material' as mat;
 
-  .navbar-links {
+@mixin navbar-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, danger);
+  $background: mat.get-color-from-palette(map-get($theme, background), background);
+  $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
+
+  .navbar-wrapper {
+    background-color: mat-color($accent);
     display: flex;
-    background-color: yellow;
-    list-style: none;
+    justify-content: space-between;
     align-items: center;
-    li {
-      margin: 0 0.5rem;
+
+    .navbar-links {
       display: flex;
+      list-style: none;
       align-items: center;
+      li {
+        margin: 0 0.5rem;
+        display: flex;
+        align-items: center;
+      }
     }
   }
 }
