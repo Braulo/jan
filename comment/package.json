@@ -2,10 +2,9 @@
   "name": "jan-comment",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "scripts": {
-    "build": "tsc --project ./",
-    "start": "ts-node ."
+    "start": "node ."
   },
   "author": "",
   "license": "ISC",
@@ -16,15 +15,5 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.2",
     "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "@types/busboy": "^0.3.1",
-    "@types/express": "^4.17.13",
-    "@types/morgan": "^1.9.3",
-    "@types/mysql2": "github:types/mysql2",
-    "@types/node": "^16.11.6",
-    "@types/uuid": "^8.3.1",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
   }
 }
