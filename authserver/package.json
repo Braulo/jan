@@ -1,0 +1,47 @@
+{
+  "name": "tyon-auth",
+  "version": "1.0.0",
+  "description": "Auth Server for Tyon Apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon ./dist/app.js",
+    "start:tsc": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Braulo/tyon-auth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Braulo/tyon-auth/issues"
+  },
+  "homepage": "https://github.com/Braulo/tyon-auth#readme",
+  "dependencies": {
+    "@angular/cli": "^12.1.4",
+    "bcryptjs": "^2.4.3",
+    "class-validator": "^0.13.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.2.5",
+    "nodemailer": "^6.6.3",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-twitter": "^1.0.4",
+    "typeorm": "^0.2.36",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.4",
+    "@types/node": "^16.4.3",
+    "@types/nodemailer": "^6.4.4",
+    "@types/passport": "^1.0.7",
+    "@types/passport-google-oauth20": "^2.0.9",
+    "nodemon": "^2.0.12"
+  }
+}
