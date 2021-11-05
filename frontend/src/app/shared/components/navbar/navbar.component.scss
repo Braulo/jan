@@ -1,0 +1,18 @@
+.navbar-wrapper {
+  background-color: red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .navbar-links {
+    display: flex;
+    background-color: yellow;
+    list-style: none;
+    align-items: center;
+    li {
+      margin: 0 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

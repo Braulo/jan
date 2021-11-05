@@ -1,0 +1,5 @@
+@import '../app/app.component.scss';
+
+@mixin jan-custom-components-theme($theme) {
+  @include angular-material-theme($theme);
+}

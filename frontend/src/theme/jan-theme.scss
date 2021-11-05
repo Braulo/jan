@@ -1,0 +1,110 @@
+@import './variables.scss';
+@import '~@angular/material/theming';
+@include mat-core();
+
+// Light-Theme
+$jan-color-collection: (
+  primary: $primary-jan-light,
+  success: $success,
+  danger: $warn,
+  accent: $accent-jan-light,
+  contrast: (
+    primary: #fff,
+    success: #fff,
+    danger: #fff,
+    accent: #fff,
+  ),
+);
+
+// Primary-Light-Theme
+$theming-material-components-primary: mat-palette($jan-color-collection, primary);
+
+// Accent-Light-Theme
+$theming-material-components-accent: mat-palette($jan-color-collection, accent);
+
+// Danger/Warn-Light-Theme
+$theming-material-components-danger: mat-palette($jan-color-collection, danger);
+
+$jan-default-components-theme: mat-light-theme(
+  $theming-material-components-primary,
+  $theming-material-components-accent,
+  $theming-material-components-danger
+);
+
+$background: map-get($jan-default-components-theme, background);
+$background: map-merge(
+  $background,
+  (
+    background: $background-jan-light,
+  )
+);
+
+$foreground-light: map-get($jan-default-components-theme, foreground);
+$foreground-light: map-merge(
+  $foreground-light,
+  (
+    foreground: $foreground-jan-light,
+  )
+);
+
+$jan-light-theme: map-merge(
+  $jan-default-components-theme,
+  (
+    background: $background,
+    foreground: $foreground-light,
+  )
+);
+
+// Dark-Theme
+$jan-color-collection-dark: (
+  primary: $primary-jan-dark,
+  success: $success,
+  danger: $warn,
+  accent: $accent-jan-dark,
+  contrast: (
+    primary: #000,
+    success: #000,
+    danger: #000,
+    accent: #000,
+  ),
+);
+
+$dark-primary: mat-palette($jan-color-collection-dark, primary);
+$dark-accent: mat-palette($jan-color-collection-dark, accent);
+$dark-warn: mat-palette($jan-color-collection-dark, danger);
+
+$mat-dark-theme-background: (
+  background: red,
+  card: red,
+  raised-button: red,
+  focused-button: red,
+  selected-button: red,
+  selected-disabled-button: red,
+  disabled-button-toggle: red,
+);
+
+$jan-default-dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+$background-dark: map-get($jan-default-dark-theme, background);
+$background-dark: map-merge(
+  $background-dark,
+  (
+    background: $background-jan-dark,
+  )
+);
+
+$foreground-dark: map-get($jan-default-dark-theme, foreground);
+$foreground-dark: map-merge(
+  $foreground-dark,
+  (
+    foreground: $foreground-jan-dark,
+  )
+);
+
+$jan-dark-theme: map-merge(
+  $jan-default-dark-theme,
+  (
+    background: $background-dark,
+    foreground: $foreground-dark,
+  )
+);

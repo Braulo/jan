@@ -1,0 +1,27 @@
+<div class="navbar-wrapper">
+  <h1>jan👌</h1>
+
+  <nav>
+    <ul class="navbar-links">
+      <li>Login</li>
+      <li>Einkaufsliste</li>
+      <li>
+        <mat-icon>account_circle</mat-icon>
+      </li>
+      <li>
+        <!-- <mat-icon *ngIf="currentTheme === 'dark'">brightness_high</mat-icon>
+        <mat-icon *ngIf="currentTheme === 'light'">bedtime</mat-icon> -->
+        <button mat-icon-button (click)="toggleTheme()">
+          <mat-icon class="icon" onselectstart="return false" aria-hidden="false">
+            {{ this.currentTheme === 'dark-theme' ? 'brightness_high' : 'bedtime' }}</mat-icon
+          >
+        </button>
+      </li>
+      <li>
+        <button mat-icon-button>
+          <mat-icon class="icon" onselectstart="return false" aria-hidden="false"> settings </mat-icon>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>

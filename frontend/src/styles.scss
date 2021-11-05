@@ -1,1 +1,28 @@
+@use '~@angular/material' as mat;
+@import './theme/jan-theme.scss';
+@import './theme/jan-custom-component-theme.scss';
 /* You can add global styles to this file, and also import other style files */
+
+h1,
+h2,
+h3,
+p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.light-theme {
+  @include jan-custom-components-theme($jan-light-theme);
+}
+.dark-theme {
+  @include jan-custom-components-theme($jan-dark-theme);
+}
