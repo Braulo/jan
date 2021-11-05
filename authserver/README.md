@@ -1,2 +1,1 @@
-# Operation Skyhook
-Auth Provider for Tyon Apps
+Auth Provider/Server für Jan
