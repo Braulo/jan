@@ -53,9 +53,8 @@ app.post('/:path', body('owner').isInt(), body('content').isString(), (req : any
     .catch(next)
 })
 
-
-(mysql.createConnection(MYSQL_URI) as unknown as Promise<Connection>)
-  .then((c: Connection) => connection = c)
+mysql.createConnection(MYSQL_URI)
+  .then(c => connection = c)
   .then(() => connection.connect())
   .then(() => fs.readFile(path.join(__dirname, 'tables.sql'), 'utf8'))
   .then((sql: string) => connection.execute(sql))
