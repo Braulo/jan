@@ -7,8 +7,7 @@ const morgan = require( 'morgan' )
 const mysql = require( 'mysql2/promise' )
 const fs = require( 'fs/promises' )
 const path = require( 'path' )
-const { uuidv4: v4 } = require( 'uuid' )
-const Busboy = require( 'busboy' )
+const { v4: uuidv4 } = require( 'uuid' )
 
 const MYSQL_URI = process.env.MYSQL_URI
 const PORT = process.env.PORT || 80
@@ -33,7 +32,7 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get('/', query('owner').isString().optional(), (req, res, next) => {
+app.get('/', query('owner').isString().isLength({ max: 48 }).optional(), (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ error: 'ValidationError', errors: errors.array() });
 
@@ -48,48 +47,40 @@ app.get('/:path', (req, res, next) => {
     .catch(next)
 })
 
-app.post('/:path', body('owner').isString(), body('content').isString(), (req, res, next) => {
+app.post('/:path', body('owner').isString().isLength({ max: 48 }), body('content').isString(), body('image').isString().isLength({ max: 48 }).optional(), (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ error: 'ValidationError', message: errors.array().map(e => e.param + ':' + e.msg).join(', ') });
 
   const id = uuidv4()
 
-  connection.execute('INSERT INTO comments (id, owner, path, content) values (?, ?, ?, ?)', [id, req.body.owner, req.params.path, req.body.content])
+  connection.execute('INSERT INTO comments (id, owner, path, content, image) values (?, ?, ?, ?, ?)', [id, req.body.owner, req.params.path, req.body.content, req.body.image])
     .then(() => res.json({ success: true, result: id }))
     .catch(next)
 })
 
-app.put('/:id', (req, res, next) => {
-  var busboy = new Busboy({ headers: req.headers });
-
-  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-    console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
-    
-    // file.pipe()
-    file.on('end', function() {
-      console.log('File [' + fieldname + '] Finished');
-    });
-  });
-
-  busboy.on('finish', function() {
-    console.log('Done parsing form!');
-    res.writeHead(303, { Connection: 'close', Location: '/' });
-    res.end();
-  });
-  req.pipe(busboy)
-})
-
-app.delete('/', body('id').isString(), (req, res, next) => {
+app.put('/:id', body('owner').isString().isLength({ max: 48 }), body('content').isString(), body('image').isString().isLength({ max: 48 }).optional(), (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ error: 'ValidationError', message: errors.array().map(e => e.param + ':' + e.msg).join(', ') });
 
-  connection.execute('DELETE comments WHERE id = ?', [req.body.id])
-    .then(() => res.json({ success: true, result: null }))
+  connection.execute('UPDATE comments SET owner = IFNULL(?, owner), content = IFNULL(?, content), image = IFNULL(?, image) WHERE id = ?', [req.body.owner, req.body.content, req.body.image, req.params.id])
+    .then(([{ affectedRows }]) => {
+      if(affectedRows > 0) res.json({ success: true, result: null })
+      else res.status(400).json({ success: false, error: 'NotFoundError', message: 'comment with id not found' })
+    })
+    .catch(next)
+})
+
+app.delete('/:id', (req, res, next) => {
+  connection.execute('DELETE FROM comments WHERE id = ?', [req.params.id])
+    .then(([{ affectedRows }]) => {
+      if(affectedRows > 0) res.json({ success: true, result: null })
+      else res.status(400).json({ success: false, error: 'NotFoundError', message: 'comment with id not found' })
+    })
     .catch(next)
 })
 
 /* Error Handler */
-app.use((err, req, res) => res.status(500).json({ success: false, error: err.name, message: err.message }))
+app.use((err, req, res, next) => res.status(500).json({ success: false, error: err.name, message: err.message }))
 
 mysql.createConnection(MYSQL_URI)
   .then(c => connection = c)

@@ -18,15 +18,23 @@ Es gibt folgende Routen:
 ### GET /
 Argument | Required | Beschreibung
 ---      | ---    | ---
-owner    | [ ]    | Integer : Besitzer ID des Kommentars
+owner    | [ ]    | uuid : Besitzer ID des Kommentars
 
 ### GET /:path
 Argument | Required | Beschreibung
 ---      | ---    | ---
 ---      | ---    | ---
 
-### POST /
+### POST /:path
 Argument | Required | Beschreibung
 ---      | ---    | ---
-owner    | [ ]    | Integer : Besitzer ID des Kommentars
+owner    | [ ]    | uuid    : Besitzer ID des Kommentars
 content  | [x]    | String  : Inhalt des Kommentares
+image    | [ ]    | uuid    : ID des Bildes
+
+### PUT /:id
+Argument | Required | Beschreibung
+---      | ---    | ---
+owner    | [ ]    | uuid    : Besitzer ID des Kommentars
+content  | [ ]    | String  : Inhalt des Kommentares
+image    | [ ]    | uuid    : ID des Bildes
