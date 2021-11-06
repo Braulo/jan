@@ -15,7 +15,11 @@ const app = express()
 
 app.get('/:id', (req, res, next) => {
     fs.readdir(path.join(STORAGE_PATH, req.params.id))
-        .then(files => FS.createReadStream(path.join(STORAGE_PATH, req.params.id, files[0])))
+        .then(files => {
+            if(files.includes('.filename')) return fs.readFile(path.join(STORAGE_PATH, req.params.id, '.filename'), 'utf8')
+            else return Promise.reject(new Error('metadata missing'))
+        })
+        .then(filename => FS.createReadStream(path.join(STORAGE_PATH, req.params.id, filename)))
         .then(file => file.pipe(res))
         .catch(next)
 })
@@ -25,6 +29,8 @@ app.post('/', (req, res, next) => {
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
         const id = uuidv4()
 
+        if(filename.startsWith('.')) filename = filename.replace(/^\.+/g, '')
+
         if(!busboy.files) busboy.files = []
         busboy.files.push(
             fs.stat(STORAGE_PATH)
@@ -32,7 +38,7 @@ app.post('/', (req, res, next) => {
                 .then(() => fs.mkdir(path.join(STORAGE_PATH, id)))
                 .then(() => new Promise((resolve, reject) => {
                     file.pipe(FS.createWriteStream(path.join(STORAGE_PATH, id, filename)))
-                    file.on('end', () => resolve(id))
+                    file.on('end', () => fs.writeFile(path.join(STORAGE_PATH, id, '.filename'), filename).then(_ => resolve(id)).catch(e => reject(e)))
                     file.on('error', (e) => reject(e))
                 }))
             )
