@@ -7,11 +7,14 @@ const fs = require('fs/promises')
 const FS = require('fs')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid')
+const morgan = require( 'morgan' )
 
 const PORT = process.env.PORT || 80
 const STORAGE_PATH = process.env.STORAGE_PATH || './storage'
 
 const app = express()
+
+app.use(morgan('dev'))
 
 app.get('/:id', (req, res, next) => {
     fs.readdir(path.join(STORAGE_PATH, req.params.id))
