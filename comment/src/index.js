@@ -18,17 +18,6 @@ const app = express()
 
 app.use(morgan('dev'))
 
-app.use((req, res, next) => {
-  // set the CORS policy and CORS headers
-  res.header('Access-Control-Allow-Origin', '*')
-     .header('Access-Control-Allow-Headers', 'origin, X-Requested-With, Content-Type, Accept, Authorization')
-
-  // set the CORS method headers
-  if (req.method === 'OPTIONS') return res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST').status(200).json({})
-
-  next()
-})
-
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
