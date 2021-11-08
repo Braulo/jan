@@ -1,10 +1,30 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { IsloggedinGuard } from './shared/guards/isloggedin.guard';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'account',
+    canActivate: [IsloggedinGuard],
+    loadChildren: () => import('./features/user/user.module').then((m) => m.UserModule),
+  },
+  {
+    path: 'shoppinglist',
+    loadChildren: () => import('./features/shoppinglist/shoppinglist.module').then((m) => m.ShoppinglistModule),
+  },
+  {
+    path: 'settings',
+    canActivate: [IsloggedinGuard],
+    loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
+  },
+  {
+    path: '**',
+    redirectTo: 'shoppinglist',
+  },
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,13 +1,16 @@
 <div class="navbar-wrapper">
-  <h1>jan👌</h1>
+  <h1 routerLink="/shoppinglist" style="cursor: pointer">jan👌</h1>
 
   <nav>
     <ul class="navbar-links">
-      <li>Einkaufsliste</li>
+      <li>{{ (currentUser | async)?.email }}</li>
       <li>
-        <button color="foreground" mat-icon-button (click)="openAuthdialog()">
+        <button *ngIf="currentUser | async; else loginButton" color="foreground" mat-icon-button routerLink="account">
           <mat-icon class="icon" onselectstart="return false" aria-hidden="false">account_circle</mat-icon>
         </button>
+        <ng-template #loginButton>
+          <button color="foreground" mat-icon-button (click)="openAuthdialog()">Login</button>
+        </ng-template>
       </li>
       <li>
         <button color="foreground" mat-icon-button (click)="toggleTheme()">
@@ -16,8 +19,8 @@
           >
         </button>
       </li>
-      <li>
-        <button mat-icon-button>
+      <li *ngIf="currentUser | async">
+        <button mat-icon-button routerLink="settings">
           <mat-icon class="icon" onselectstart="return false" aria-hidden="false"> settings </mat-icon>
         </button>
       </li>

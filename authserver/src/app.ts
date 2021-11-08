@@ -6,7 +6,7 @@ import { authRouter } from './routers/auth.routes';
 import { realmRolesRouter } from './routers/realmRole.routes';
 import { isAuth } from './utils/auth.utils';
 import { checkIfUserIsMasterRealmAdmin } from './utils/realmRoles.utils';
-import { createMasterRealm } from './utils/skyhook.utils';
+import { createJan } from './utils/skyhook.utils';
 import { Realm } from './entities/realm.entity';
 import { userRouter } from './routers/user.routes';
 import { realmApplicationURLRouter } from './routers/realmApplicationURL.routes';
@@ -75,7 +75,7 @@ const main = async () => {
 
     const masterRealm = await Realm.findOne('1');
     if (!masterRealm) {
-      createMasterRealm();
+      createJan();
     }
     app.listen(process.env.PORT, () => {
       console.log(`Server Started at: http://localhost:${process.env.PORT}`);

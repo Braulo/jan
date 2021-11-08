@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
+import { getCurrentUser } from '@features/auth/authStore/auth.selectors';
+import { AuthDialogComponent } from '@features/auth/components/auth-dialog/auth-dialog.component';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'jan-navbar',
@@ -9,7 +13,8 @@ import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 })
 export class NavbarComponent implements OnInit {
   public currentTheme: string;
-  constructor(private dialog: MatDialog) {}
+  public currentUser: Observable<User>;
+  constructor(private dialog: MatDialog, private store: Store) {}
 
   ngOnInit(): void {
     const themeLocalStorage = localStorage.getItem('theme');
@@ -33,9 +38,7 @@ export class NavbarComponent implements OnInit {
   }
 
   openAuthdialog(): void {
-    const dialogRef = this.dialog.open(AuthDialogComponent);
-    dialogRef.afterClosed().subscribe((res) => {
-      console.log('test after closed', res);
-    });
+    this.dialog.open(AuthDialogComponent);
+    this.currentUser = this.store.select(getCurrentUser);
   }
 }

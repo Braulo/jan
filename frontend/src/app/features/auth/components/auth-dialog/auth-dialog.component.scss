@@ -8,8 +8,11 @@
   $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
 
   .auth-dialog-wrapper {
+    height: 22rem;
     p {
       cursor: pointer;
+      margin-top: 1rem !important;
+      text-align: center;
     }
   }
 }

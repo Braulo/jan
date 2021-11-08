@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  authService: 'http://localhost:3001/api',
+  //Todo
+  coreService: 'http://localhost:0000',
 };
 
 /*

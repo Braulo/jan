@@ -1,0 +1,14 @@
+<h1>Account</h1>
+<div *ngIf="currentUser | async as user">
+  <h3>
+    {{ user.email }}
+  </h3>
+  <h3>
+    {{ user.username }}
+  </h3>
+  <h3>
+    {{ user.id }}
+  </h3>
+
+  <button>Logout</button>
+</div>

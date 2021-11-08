@@ -5,48 +5,48 @@ import { User } from '../entities/user.entity';
 import bcryptjs from 'bcryptjs';
 import { RealmApplicationURL } from '../entities/realmApplicationUrl.entity';
 
-export const createMasterRealm = async () => {
-  const masterRealm = Realm.create({
+export const createJan = async () => {
+  const janRealm = Realm.create({
     id: '1',
     name: process.env.MasterRealmName,
   });
 
-  const masterRealmApplication = RealmApplication.create({
+  const janRealmApplication = RealmApplication.create({
     id: '1',
     clientId: process.env.MasterRealmApplicationClientId,
     clientSecret: process.env.MasterRealmApplicationSecret,
-    realm: masterRealm,
-    displayName: 'Master Realm Application',
+    realm: janRealm,
+    displayName: 'Jan Realm app',
   });
 
-  const masterAdminRealmRole = RealmRole.create({
+  const janAdminRealmRole = RealmRole.create({
     id: '1',
     name: process.env.MasterRealmAdminRole,
-    displayName: 'Master Role for Realm CRUD',
-    realm: masterRealm,
+    displayName: 'Master Role for Jan',
+    realm: janRealm,
   });
 
   const adminUser = User.create({
     id: '1',
     email: process.env.MasterRealmAdminEmail,
     password: await bcryptjs.hash(process.env.MasterRealmAdminPassword || '', 12),
-    realmApplication: masterRealmApplication,
+    realmApplication: janRealmApplication,
     username: process.env.MasterRealmAdminUsername,
     emailConfirmed: true,
-    realmRoles: [masterAdminRealmRole],
+    realmRoles: [janAdminRealmRole],
   });
 
   const realmApplicationURL = RealmApplicationURL.create({
     id: '1',
     url: process.env.RealmApplicationUrl,
-    realmApplication: masterRealmApplication,
+    realmApplication: janRealmApplication,
   });
 
-  await Realm.save(masterRealm);
+  await Realm.save(janRealm);
 
-  await RealmApplication.save(masterRealmApplication);
+  await RealmApplication.save(janRealmApplication);
 
-  await RealmRole.save(masterAdminRealmRole);
+  await RealmRole.save(janAdminRealmRole);
 
   await User.save(adminUser);
 

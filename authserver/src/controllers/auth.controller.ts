@@ -16,6 +16,8 @@ const registerUserInRealmApplication = async (req: Request, res: Response) => {
   const clientId = req.query.clientId as string;
   const { email, password, username } = req.body;
 
+  console.log('test register', req.query, email, password, username);
+
   try {
     const realmApplication = await RealmApplication.findOneOrFail({
       where: {

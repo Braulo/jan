@@ -1,7 +1,7 @@
 @import '../app/app.component.scss';
 @import '../app/app.component.scss';
 @import '../app/shared/components/navbar/navbar.component.scss';
-@import '../app/shared/components/auth-dialog/auth-dialog.component.scss';
+@import '../app/features/auth/components/auth-dialog/auth-dialog.component.scss';
 
 @mixin jan-custom-components-theme($theme) {
   @include angular-material-theme($theme);
