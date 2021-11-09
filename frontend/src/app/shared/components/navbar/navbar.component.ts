@@ -21,6 +21,8 @@ export class NavbarComponent implements OnInit {
     this.currentTheme =
       themeLocalStorage === 'light-theme' || themeLocalStorage === 'dark-theme' ? themeLocalStorage : 'light-theme';
     this.setTheme(this.currentTheme);
+
+    this.currentUser = this.store.select(getCurrentUser);
   }
 
   toggleTheme(): void {
@@ -39,6 +41,5 @@ export class NavbarComponent implements OnInit {
 
   openAuthdialog(): void {
     this.dialog.open(AuthDialogComponent);
-    this.currentUser = this.store.select(getCurrentUser);
   }
 }

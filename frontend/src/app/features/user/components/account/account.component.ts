@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { logoutAction } from '@features/auth/authStore/auth.actions';
 import { getCurrentUser } from '@features/auth/authStore/auth.selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -13,7 +14,12 @@ export class AccountComponent implements OnInit {
   constructor(private store: Store) {}
 
   public currentUser: Observable<User>;
+
   ngOnInit(): void {
     this.currentUser = this.store.select(getCurrentUser);
+  }
+
+  logout() {
+    this.store.dispatch(logoutAction());
   }
 }

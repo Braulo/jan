@@ -9,13 +9,21 @@ export const loginSuccessAction = createAction(
 );
 
 export const registerAction = createAction(
-  '[Auth] register',
+  '[Auth] Register',
   props<{ username: string; email: string; password: string }>(),
 );
 
 export const registerSuccessAction = createAction(
-  '[AUTH] register success',
+  '[AUTH] Register Success',
   props<{ user: User; accessToken: string; refreshToken: string }>(),
 );
+
+export const checkTokenAction = createAction('[Auth] Check Token', props<{ token: string }>());
+
+export const checkTokenSuccessAction = createAction('[Auth] Check Token Success', props<{ user: User }>());
+
+export const logoutAction = createAction('[Auth] Logout');
+
+export const logoutSuccessAction = createAction('[Auth] Logout Success');
 
 export const authErrorAction = createAction('[AUTH] auth error', props<{ err: any }>());

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { loginAction } from '@features/auth/authStore/auth.actions';
+import { checkTokenAction } from '@features/auth/authStore/auth.actions';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -11,6 +11,11 @@ export class AppComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit() {
-    // Todo check token
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (accessToken) {
+      this.store.dispatch(checkTokenAction({ token: accessToken }));
+      // Todo: refresh accesstoken when invalid
+    }
   }
 }
