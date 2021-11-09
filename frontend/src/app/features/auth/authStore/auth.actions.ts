@@ -14,7 +14,7 @@ export const registerAction = createAction(
 );
 
 export const registerSuccessAction = createAction(
-  '[AUTH] reister success',
+  '[AUTH] register success',
   props<{ user: User; accessToken: string; refreshToken: string }>(),
 );
 
