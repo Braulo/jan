@@ -13,4 +13,9 @@ export const registerAction = createAction(
   props<{ username: string; email: string; password: string }>(),
 );
 
+export const registerSuccessAction = createAction(
+  '[AUTH] reister success',
+  props<{ user: User; accessToken: string; refreshToken: string }>(),
+);
+
 export const authErrorAction = createAction('[AUTH] auth error', props<{ err: any }>());

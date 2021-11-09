@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { createEntityAdapter } from '@ngrx/entity';
 import { User } from 'src/app/shared/models/user.model';
-import { authErrorAction, loginSuccessAction } from './auth.actions';
+import { authErrorAction, loginSuccessAction, registerSuccessAction } from './auth.actions';
 
 export const authFeatureKey = 'auth';
 
@@ -19,7 +19,7 @@ const initialState: State = { accessToken: '', refreshToken: '', currentUser: nu
 
 export const reducers = createReducer(
   initialState,
-  on(loginSuccessAction, (state, { user, accessToken, refreshToken }) => {
+  on(loginSuccessAction, registerSuccessAction, (state, { user, accessToken, refreshToken }) => {
     return { ...state, currentUser: user, accessToken, refreshToken, isLoggedIn: true };
   }),
   on(authErrorAction, (state, { err }) => {

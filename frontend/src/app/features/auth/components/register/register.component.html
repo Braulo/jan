@@ -27,7 +27,7 @@
       <mat-error *ngIf="!registerForm.controls['passwords'].valid">Passwords do not match</mat-error>
     </div>
 
-    <mat-error *ngIf="error">{{ error }}</mat-error>
+    <mat-error>{{ (error | async)?.error.message }}</mat-error>
     <button mat-raised-button type="submit" [disabled]="!registerForm.valid">Register</button>
   </form>
 </div>

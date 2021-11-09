@@ -48,7 +48,7 @@ const registerUserInRealmApplication = async (req: Request, res: Response) => {
     const accessToken = createAccessToken(user);
     const refreshToken = createRefreshToken(user);
 
-    return res.status(200).json({ createdUser, token: accessToken, refreshToken });
+    return res.status(200).json({ createdUser, accessToken, refreshToken });
   } catch (error) {
     return res.status(400).json(error);
   }
