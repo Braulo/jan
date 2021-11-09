@@ -18,7 +18,7 @@ export const createGoogleStrategy = async (clientId: string) => {
   const GoogleStrategyConfig = {
     clientID: googleProviderConfig?.key || '',
     clientSecret: googleProviderConfig?.secret || '',
-    callbackURL: `${process.env.GoogleAuthCallbackURI}${clientId}`,
+    callbackURL: `${process.env.GoogleAuthCallbackURI}?clientId=${clientId}`,
   };
 
   const verifyLogin = async (accessToken: string, refreshToken: string, profile: Profile, done: VerifyCallback) => {

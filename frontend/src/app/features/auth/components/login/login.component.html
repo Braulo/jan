@@ -14,5 +14,10 @@
 
     <mat-error>{{ (error | async)?.error?.message }}</mat-error>
     <button mat-raised-button type="submit" [disabled]="!loginForm.valid">Login</button>
+    <br />
+    <!-- <button mat-raised-button type="button" (click)="loginWithExternalProvider('google')">Login with Google</button> -->
+    <button mat-raised-button>
+      <a href="http://localhost:3001/api/auth/external/google?clientId=Jan">Login with google</a>
+    </button>
   </form>
 </div>

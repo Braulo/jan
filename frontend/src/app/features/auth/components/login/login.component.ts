@@ -5,7 +5,7 @@ import { loginAction } from '@features/auth/authStore/auth.actions';
 import { getAuthError, getCurrentUser } from '@features/auth/authStore/auth.selectors';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 
 @Component({

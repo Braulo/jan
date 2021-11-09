@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../../models/user.model';
@@ -9,7 +10,7 @@ import { ApiService } from '../api/api.service';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private apiService: ApiService, private httpClient: HttpClient) {}
+  constructor(private apiService: ApiService, private httpClient: HttpClient, private router: Router) {}
 
   private endpoint: string = '/auth';
 
@@ -43,7 +44,7 @@ export class AuthService {
   }
 
   logout(refreshToken: string): Observable<boolean> {
-    return this.httpClient.post<boolean>(environment.authService + this.endpoint + '/logout?clientId=Jan', {
+    return this.apiService.post<boolean>(environment.authService, this.endpoint + '/logout?clientId=Jan', {
       refreshToken,
     });
   }

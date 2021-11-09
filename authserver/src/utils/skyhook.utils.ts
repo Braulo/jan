@@ -4,6 +4,7 @@ import { RealmRole } from '../entities/realmRole.entity';
 import { User } from '../entities/user.entity';
 import bcryptjs from 'bcryptjs';
 import { RealmApplicationURL } from '../entities/realmApplicationUrl.entity';
+import { ExternalProvider } from '../entities/externalProvider.entity';
 
 export const createJan = async () => {
   const janRealm = Realm.create({
@@ -42,6 +43,14 @@ export const createJan = async () => {
     realmApplication: janRealmApplication,
   });
 
+  const externalProvider = ExternalProvider.create({
+    id: '1',
+    realmApplication: janRealmApplication,
+    name: process.env.GoogleAuthProviderName,
+    key: process.env.GoogleAuthProviderClientId,
+    secret: process.env.GoogleAuthProviderSecret,
+  });
+
   await Realm.save(janRealm);
 
   await RealmApplication.save(janRealmApplication);
@@ -51,6 +60,8 @@ export const createJan = async () => {
   await User.save(adminUser);
 
   await RealmApplicationURL.save(realmApplicationURL);
+
+  await ExternalProvider.save(externalProvider);
 };
 
 // export const checkRealmApplicationURL = async (req: Request, res: Response, next: NextFunction) => {
