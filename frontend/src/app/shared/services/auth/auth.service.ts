@@ -49,9 +49,19 @@ export class AuthService {
     });
   }
 
-  sendResetPassword(email: string): Observable<any> {
+  sendResetPassword(email: string): Observable<boolean> {
     return this.apiService.post<boolean>(environment.authService, this.endpoint + '/forgot-password?clientId=Jan', {
       email,
     });
+  }
+
+  resetPassword(userid: string, refreshPasswordToken: string, newPassword: string): Observable<any> {
+    return this.apiService.post<any>(
+      environment.authService,
+      this.endpoint + `/reset-password/${userid}?resetPasswordToken=${refreshPasswordToken}`,
+      {
+        password: newPassword,
+      },
+    );
   }
 }

@@ -20,8 +20,6 @@ export class ResetPasswordComponent implements OnInit {
 
   sendResetPasswordMail() {
     const email = this.resetPasswordForm.get('email').value;
-    this.authService.sendResetPassword(email).subscribe((res) => {
-      console.log('res test resetpassword', res);
-    });
+    this.authService.sendResetPassword(email).subscribe((res) => {});
   }
 }

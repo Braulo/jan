@@ -16,8 +16,6 @@ const registerUserInRealmApplication = async (req: Request, res: Response) => {
   const clientId = req.query.clientId as string;
   const { email, password, username } = req.body;
 
-  console.log('test register', req.query, email, password, username);
-
   try {
     const realmApplication = await RealmApplication.findOneOrFail({
       where: {
@@ -190,6 +188,7 @@ const createGoogleAuthStrategy = async (req: Request, res: Response, next: NextF
 const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
   const { clientId } = req.query;
   const { email } = req.body;
+  console.log('forgot password test', email, clientId);
 
   try {
     const user = await User.createQueryBuilder('user')
@@ -225,7 +224,6 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
       html: `<a href="${process.env.SkyhookUrl}/api/auth/reset-password/${user.id}?resetPasswordToken=${resetPasswordToken}">Click here to reset you password</a> 
       <h1>This link is valid for 24h</h1>`,
     };
-
     await NodeMailerTransporter.sendMail(mailOptions);
     return res.status(200).json(true);
   } catch (error) {
@@ -247,9 +245,7 @@ const getResetPassword = async (req: Request, res: Response) => {
       user.realmApplication.clientSecret + user.password,
     ) as any;
 
-    return res.redirect(
-      `${decodedResetPasswordToken.redirectUrl}/reset-password/${userid}?resetPasswordToken=${resetPasswordToken}`,
-    );
+    return res.redirect(`${decodedResetPasswordToken.redirectUrl}/${userid}?resetPasswordToken=${resetPasswordToken}`);
   } catch (error) {
     return res.status(400).send('unvalid link');
   }
