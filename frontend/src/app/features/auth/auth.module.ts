@@ -9,9 +9,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromAuth from './authStore/auth.reducer';
 import { AuthEffects } from './authStore/auth.effects';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
-  declarations: [AuthDialogComponent, LoginComponent, RegisterComponent],
+  declarations: [AuthDialogComponent, LoginComponent, RegisterComponent, ResetPasswordComponent],
   imports: [
     CommonModule,
     SharedModule,

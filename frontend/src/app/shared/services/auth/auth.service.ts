@@ -48,4 +48,10 @@ export class AuthService {
       refreshToken,
     });
   }
+
+  sendResetPassword(email: string): Observable<any> {
+    return this.apiService.post<boolean>(environment.authService, this.endpoint + '/forgot-password?clientId=Jan', {
+      email,
+    });
+  }
 }

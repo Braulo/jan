@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
       email: ['test@test.de', [Validators.required, Validators.email]],
       password: ['123'],
     });
+
     this.error = this.store.select(getAuthError);
 
     this.store

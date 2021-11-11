@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthDialogComponent implements OnInit {
   public isLogin: boolean = true;
+  public isResetPassword: boolean = false;
 
   constructor() {}
 

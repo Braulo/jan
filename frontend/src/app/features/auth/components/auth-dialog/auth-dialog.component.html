@@ -8,4 +8,9 @@
     <jan-register></jan-register>
     <p (click)="isLogin = !isLogin">Login here!</p>
   </ng-template>
+
+  <div *ngIf="isResetPassword && isLogin">
+    <jan-reset-password></jan-reset-password>
+  </div>
+  <p (click)="isResetPassword = true && isLogin">Forgot password?</p>
 </div>
