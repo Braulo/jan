@@ -30,19 +30,19 @@ app.get('/', query('owner').isString().isLength({ max: 48 }).optional(), (req, r
     .catch(next)
 })
 
-app.get('/:path', (req, res, next) => {
-  connection.query('SELECT * FROM comments WHERE path = ?', [req.params.path])
+app.get('/*', (req, res, next) => {
+  connection.query('SELECT * FROM comments WHERE path = ?', [req.path])
     .then(([rows]) => res.json({ status: true, result: rows }))
     .catch(next)
 })
 
-app.post('/:path', body('owner').isString().isLength({ max: 48 }), body('content').isString(), body('image').isString().isLength({ max: 48 }).optional(), (req, res, next) => {
+app.post('/*', body('owner').isString().isLength({ max: 48 }), body('content').isString(), body('image').isString().isLength({ max: 48 }).optional(), (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ error: 'ValidationError', message: errors.array().map(e => e.param + ':' + e.msg).join(', ') });
 
   const id = uuidv4()
 
-  connection.execute('INSERT INTO comments (id, owner, path, content, image) values (?, ?, ?, ?, ?)', [id, req.body.owner, req.params.path, req.body.content, req.body.image])
+  connection.execute('INSERT INTO comments (id, owner, path, content, image) values (?, ?, ?, ?, ?)', [id, req.body.owner, req.path, req.body.content, req.body.image])
     .then(() => res.json({ success: true, result: id }))
     .catch(next)
 })
