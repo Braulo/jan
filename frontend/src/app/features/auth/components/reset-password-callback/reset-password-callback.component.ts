@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DecodedResetPasswordToken } from 'src/app/shared/models/decoded-reset-password-token';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 @Component({
@@ -13,11 +14,14 @@ export class ResetPasswordCallbackComponent implements OnInit {
   public userid: string;
   public refreshPasswordToken: string;
   public response: any;
+  public decodedToken: DecodedResetPasswordToken;
+  public error: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -25,9 +29,15 @@ export class ResetPasswordCallbackComponent implements OnInit {
       newPassword: ['', [Validators.required]],
     });
 
-    this.activatedRoute.queryParams.subscribe(
-      ({ resetPasswordToken }) => (this.refreshPasswordToken = resetPasswordToken),
-    );
+    this.activatedRoute.queryParams.subscribe(({ resetPasswordToken }) => {
+      this.decodedToken = AuthService.decodeRefreshPasswordToken(resetPasswordToken);
+      if (this.decodedToken.exp < Date.now() / 1000) {
+        this.error = 'This link is invalid';
+      } else {
+        this.error = 'Your link is valid!';
+      }
+      this.refreshPasswordToken = resetPasswordToken;
+    });
 
     this.activatedRoute.params.subscribe(({ userid }) => (this.userid = userid));
   }
@@ -35,7 +45,12 @@ export class ResetPasswordCallbackComponent implements OnInit {
   resetPassword() {
     const newPassword = this.resetPasswordForm.get('newPassword').value;
     this.authService.resetPassword(this.userid, this.refreshPasswordToken, newPassword).subscribe((res) => {
-      this.response = res;
+      if (res) {
+        this.response = 'Your password has been reset please login, you will be redirected in 5 secounds';
+        setTimeout(() => {
+          this.router.navigateByUrl('');
+        }, 5000);
+      }
     });
   }
 }

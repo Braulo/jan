@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DecodedResetPasswordToken } from '../../models/decoded-reset-password-token';
 import { User } from '../../models/user.model';
 import { ApiService } from '../api/api.service';
 
@@ -55,13 +56,22 @@ export class AuthService {
     });
   }
 
-  resetPassword(userid: string, refreshPasswordToken: string, newPassword: string): Observable<any> {
-    return this.apiService.post<any>(
+  resetPassword(userid: string, refreshPasswordToken: string, newPassword: string): Observable<boolean> {
+    return this.apiService.post<boolean>(
       environment.authService,
       this.endpoint + `/reset-password/${userid}?resetPasswordToken=${refreshPasswordToken}`,
       {
         password: newPassword,
       },
     );
+  }
+
+  public static decodeAuthTokens(token: string): User {
+    const { userId, username, email } = JSON.parse(atob(token.split('.')[1]));
+    return { id: userId, username, email };
+  }
+
+  public static decodeRefreshPasswordToken(refreshPasswordToken: string): DecodedResetPasswordToken {
+    return JSON.parse(atob(refreshPasswordToken.split('.')[1]));
   }
 }

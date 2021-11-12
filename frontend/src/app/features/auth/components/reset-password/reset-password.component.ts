@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 })
 export class ResetPasswordComponent implements OnInit {
   public resetPasswordForm: FormGroup;
+  public responseSendResetPassword: string;
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder) {}
 
@@ -20,6 +21,10 @@ export class ResetPasswordComponent implements OnInit {
 
   sendResetPasswordMail() {
     const email = this.resetPasswordForm.get('email').value;
-    this.authService.sendResetPassword(email).subscribe((res) => {});
+    this.authService.sendResetPassword(email).subscribe((res) => {
+      if (res) {
+        this.responseSendResetPassword = 'Success check your mails!';
+      }
+    });
   }
 }
