@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AccessToken } from '../../models/access-token';
 import { DecodedResetPasswordToken } from '../../models/decoded-reset-password-token';
 import { User } from '../../models/user.model';
 import { ApiService } from '../api/api.service';
@@ -66,9 +67,8 @@ export class AuthService {
     );
   }
 
-  public static decodeAuthTokens(token: string): User {
-    const { userId, username, email } = JSON.parse(atob(token.split('.')[1]));
-    return { id: userId, username, email };
+  public static decodeAuthTokens(accessToken: string): AccessToken {
+    return JSON.parse(atob(accessToken.split('.')[1]));
   }
 
   public static decodeRefreshPasswordToken(refreshPasswordToken: string): DecodedResetPasswordToken {

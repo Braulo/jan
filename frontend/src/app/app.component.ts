@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { checkTokenAction } from '@features/auth/authStore/auth.actions';
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -9,9 +10,16 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private store: Store, private activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(
+    private translocoservice: TranslocoService,
+    private store: Store,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
+    this.translocoservice.setAvailableLangs(['en', 'de']);
+    this.translocoservice.setActiveLang(localStorage.getItem('language') || 'de');
     const accessToken = localStorage.getItem('accessToken');
 
     if (accessToken) {

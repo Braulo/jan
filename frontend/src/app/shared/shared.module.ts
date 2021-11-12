@@ -10,6 +10,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [NavbarComponent],
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    TranslocoModule,
   ],
   exports: [
     NavbarComponent,
@@ -32,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    TranslocoModule,
   ],
 })
 export class SharedModule {}
