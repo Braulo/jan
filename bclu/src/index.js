@@ -7,7 +7,7 @@ const barcodelookup = require('barcodelookup')
 const morgan = require('morgan')
 
 const PORT = process.env.PORT || 80
-const API_KEY = process.env.API_KEY
+const API_KEY = process.env.BCLU_API_KEY
 
 const app = express()
 
