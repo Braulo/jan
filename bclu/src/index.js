@@ -18,6 +18,8 @@ app.get('/', query('barcode').isString().isLength({ max: 20 }), (req, res, next)
   if (!errors.isEmpty()) return res.status(400).json({ error: 'ValidationError', errors: errors.array() })
 
   barcodelookup.lookup({ barcode: req.query.barcode, key: API_KEY })
+    .then(result => res.json(result))
+    .catch(err => next(err))
 })
 
 /* Error Handler */
