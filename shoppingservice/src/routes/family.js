@@ -14,7 +14,11 @@ router.get('/:family/members', (req, res, next) => {
 
 router.get('/:family', (req, res, next) => {
     req.mysql.query('SELECT * FROM shoppinglist WHERE family = ?', [req.params.family])
-        .then(([rows]) => res.json({ status: true, result: rows }))
+        .then(([rows]) => res.json({ status: true, result: {
+                progress: rows.map(_ => _.status).reduce((prev, cur, i, arr) => prev + cur, 0) / rows.length * 2,
+                items: rows
+            }
+        }))
         .catch(next)
 })
 

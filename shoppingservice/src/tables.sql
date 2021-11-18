@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS shoppinglist (
     family varchar(48),
     thumbnail varchar(48)
     title varchar(512),
+    status int default 0,
 
     PRIMARY KEY (id)
 );
