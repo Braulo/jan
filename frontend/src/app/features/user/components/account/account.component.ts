@@ -12,7 +12,8 @@ import { User } from 'src/app/shared/models/user.model';
   styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent implements OnInit {
-  private activeLang: string;
+  public activeLang: string;
+  public allLanguages: any;
 
   constructor(private store: Store, private translocoservice: TranslocoService) {}
 
@@ -20,14 +21,16 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.store.select(getCurrentUser);
+    this.allLanguages = this.translocoservice.getAvailableLangs();
+    this.activeLang = localStorage.getItem('language');
   }
 
   logout() {
     this.store.dispatch(logoutAction());
   }
 
-  changeLanguage() {
-    this.activeLang = this.activeLang == 'de' ? 'en' : 'de';
+  changeLanguage({ value }) {
+    this.activeLang = value;
     this.translocoservice.setActiveLang(this.activeLang);
     localStorage.setItem('language', this.activeLang);
   }

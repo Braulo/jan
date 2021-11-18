@@ -1,6 +1,5 @@
-<div class="navbar-wrapper">
+<div *transloco="let t" class="navbar-wrapper">
   <h1 routerLink="/shoppinglist" style="cursor: pointer">jan👌</h1>
-
   <nav>
     <ul class="navbar-links">
       <li>{{ (currentUser | async)?.email }}</li>
@@ -9,12 +8,17 @@
           <mat-icon class="icon" onselectstart="return false" aria-hidden="false">account_circle</mat-icon>
         </button>
         <ng-template #loginButton>
-          <button color="foreground" mat-icon-button (click)="openAuthdialog()">Login</button>
+          <button color="foreground" mat-icon-button (click)="openAuthdialog()">{{ t('navbar.login') }}</button>
         </ng-template>
       </li>
       <li>
         <button color="foreground" mat-icon-button (click)="toggleTheme()">
-          <mat-icon class="icon" onselectstart="return false" aria-hidden="false">
+          <mat-icon
+            class="icon"
+            onselectstart="return false"
+            aria-hidden="false"
+            matTooltip="{{ t('navbar.toggletheme') }}"
+          >
             {{ this.currentTheme === 'dark-theme' ? 'brightness_high' : 'bedtime' }}</mat-icon
           >
         </button>

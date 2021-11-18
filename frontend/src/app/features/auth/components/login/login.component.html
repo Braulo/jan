@@ -1,23 +1,22 @@
-<div class="login-wrapper">
-  <h1>Login:</h1>
+<div *transloco="let t" class="login-wrapper">
+  <h1>{{ t('auth.login.login') }}</h1>
   <form [formGroup]="loginForm" (submit)="login()" class="login-form">
     <mat-form-field appearance="outline">
-      <mat-label>E-Mail</mat-label>
+      <mat-label>{{ t('auth.login.email') }}</mat-label>
       <input matInput type="email" formControlName="email" />
-      <mat-error *ngIf="loginForm.get('email').errors">Not a valid email</mat-error>
+      <mat-error *ngIf="loginForm.get('email').errors">{{ t('auth.login.notvalidmail') }}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
+      <mat-label>{{ t('auth.login.password') }}</mat-label>
       <input matInput type="password" formControlName="password" />
     </mat-form-field>
 
     <mat-error>{{ (error | async)?.error?.message }}</mat-error>
-    <button mat-raised-button type="submit" [disabled]="!loginForm.valid">Login</button>
+    <button mat-raised-button type="submit" [disabled]="!loginForm.valid">{{ t('auth.login.login') }}</button>
     <br />
-    <!-- <button mat-raised-button type="button" (click)="loginWithExternalProvider('google')">Login with Google</button> -->
     <button mat-raised-button>
-      <a href="http://localhost:3001/api/auth/external/google?clientId=Jan">Login with google</a>
+      <a href="http://localhost:3001/api/auth/external/google?clientId=Jan">{{ t('auth.login.google') }}</a>
     </button>
   </form>
 </div>

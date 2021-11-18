@@ -7,6 +7,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,6 +27,8 @@ import { TranslocoModule } from '@ngneat/transloco';
     ReactiveFormsModule,
     MatSnackBarModule,
     TranslocoModule,
+    MatSelectModule,
+    MatTooltipModule,
   ],
   exports: [
     NavbarComponent,
@@ -34,7 +38,9 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatInputModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatSelectModule,
     TranslocoModule,
+    MatTooltipModule,
   ],
 })
 export class SharedModule {}

@@ -1,16 +1,16 @@
-<div class="auth-dialog-wrapper">
+<div *transloco="let t" class="auth-dialog-wrapper">
   <div *ngIf="isLogin; else register">
     <jan-login></jan-login>
-    <p (click)="isLogin = !isLogin">Register here!</p>
+    <p (click)="isLogin = !isLogin">{{ t('auth.registerhere') }}</p>
   </div>
 
   <ng-template #register>
     <jan-register></jan-register>
-    <p (click)="isLogin = !isLogin">Login here!</p>
+    <p (click)="isLogin = !isLogin">{{ t('auth.loginhere') }}</p>
   </ng-template>
 
   <div *ngIf="isResetPassword && isLogin">
     <jan-reset-password></jan-reset-password>
   </div>
-  <p (click)="isResetPassword = true && isLogin">Forgot password?</p>
+  <p (click)="isResetPassword = true && isLogin">{{ t('auth.forgotpassword') }}</p>
 </div>

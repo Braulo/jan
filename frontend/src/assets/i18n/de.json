@@ -1,3 +1,38 @@
 {
-  "test": "hallo"
+  "navbar": {
+    "login": "Anmelden",
+    "toggletheme": "Theme ändern"
+  },
+  "account": {
+    "account": "Account",
+    "language": "Sprache",
+    "logout": "Abmelden",
+    "email": "E-Mail",
+    "username": "Benutzername"
+  },
+  "settings": {
+    "settings": "Einstellungen"
+  },
+  "auth": {
+    "registerhere": "Hier regestrieren!",
+    "loginhere": "Hier anmelden!",
+    "forgotpassword": "Password vergessen?",
+    "login": {
+      "login": "Anmelden:",
+      "email": "E-Mail",
+      "notvalidmail": "Die email ist nicht valide!",
+      "password": "Passwort",
+      "google": "Mit Google anmelden"
+    },
+    "register": {
+      "register": "Regestrieren",
+      "username": "Benutzername",
+      "enterusername": "Benutzername eingeben",
+      "email": "E-Mail",
+      "notvalidemail": "E-Mail ist nicht valide",
+      "password": "Passwort",
+      "confirmpassword": "Passwort bestätigen",
+      "passwordnotmatch": "Passwörter sing nicht gleich"
+    }
+  }
 }
