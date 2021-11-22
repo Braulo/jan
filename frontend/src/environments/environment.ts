@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  authService: 'http://localhost:3001/api',
+  authServiceUrl: 'http:/localhost:3001/api',
   //Todo
-  coreService: 'http://localhost:0000',
+  coreServiceUrl: 'http://localhost:0000',
 };
 
 /*

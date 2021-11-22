@@ -10,6 +10,8 @@ import { createGoogleStrategy } from '../utils/passport-google-strategy.utils';
 import passport from 'passport';
 import { MailOptions } from 'nodemailer/lib/json-transport';
 import { NodeMailerTransporter } from '../app';
+import { ResponseModel } from '../models/responseModel';
+import { RegisterModel } from '../models/registerModel';
 
 //GET => /api/user/register/:realmApplicationId
 const registerUserInRealmApplication = async (req: Request, res: Response) => {
@@ -46,7 +48,14 @@ const registerUserInRealmApplication = async (req: Request, res: Response) => {
     const accessToken = createAccessToken(user);
     const refreshToken = createRefreshToken(user);
 
-    return res.status(200).json({ createdUser, accessToken, refreshToken });
+    const response: ResponseModel<RegisterModel> = {
+      Message: `User (${createdUser.email}) has been successfully registered`,
+      Result: { user: createdUser, accessToken, refreshToken },
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     return res.status(400).json(error);
   }

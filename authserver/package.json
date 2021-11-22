@@ -1,7 +1,7 @@
 {
-  "name": "tyon-auth",
+  "name": "jan-auth",
   "version": "1.0.0",
-  "description": "Auth Server for Tyon Apps",
+  "description": "Auth Server for jan",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,17 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Braulo/tyon-auth.git"
+    "url": "git+https://github.com/Braulo/jan.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Braulo/tyon-auth/issues"
-  },
-  "homepage": "https://github.com/Braulo/tyon-auth#readme",
   "dependencies": {
-    "@angular/cli": "^12.1.4",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.13.1",
     "dotenv": "^10.0.0",

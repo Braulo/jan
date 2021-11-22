@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SnackbarService } from '../snackbar/snackbar.service';
 
@@ -22,7 +22,6 @@ export class ApiService {
   delete() {}
 
   private errorHandler<T>(err: any): Observable<T> {
-    console.log('api err', err);
     this.snackbarService.show('something went wrong');
     return throwError(err);
   }
