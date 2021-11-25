@@ -38,3 +38,14 @@ Argument | Required | Beschreibung
 owner    | [ ]    | uuid    : Besitzer ID des Kommentars
 content  | [ ]    | String  : Inhalt des Kommentares
 image    | [ ]    | uuid    : ID des Bildes
+
+Rückgabe Modell:
+* status - Boolean: true/false
+* result:
+```
+    id varchar(48) NOT NULL,
+    owner varchar(48),
+    path varchar(512) NOT NULL,
+    content text,
+    image varchar(48),
+```
