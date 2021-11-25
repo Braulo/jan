@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  database:
+    image: mysql
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_USER=root
+      - MYSQL_DATABASE=skyhook
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 20s
+      retries: 10
+    container_name: database
+  frontend:
+    build: ./frontend
+    ports:
+      - '4200:4200'
+  authserver:
+    build: ./authserver
+    ports:
+      - '3001:3001'
+    depends_on:
+      database:
+        condition: service_healthy
