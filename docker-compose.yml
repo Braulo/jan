@@ -30,14 +30,14 @@ services:
   imageserver:
     build: ./imageserver
     ports:
-      - '80:3201'
+      - '3201:80'
     depends_on:
       database:
         condition: service_healthy
   commentservice:
     build: ./comment
     ports:
-      - '80:3202'
+      - '3202:80'
     depends_on:
       database:
         condition: service_healthy
