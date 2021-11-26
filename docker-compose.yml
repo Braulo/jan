@@ -41,6 +41,8 @@ services:
     restart: always
     environment:
       - MYSQL_URI=mysql://jan:jan@database/jan
+    volumes:
+      - ./store-imageserver:/usr/src/app/storage:rw
     ports:
       - '3201:80'
     depends_on:
