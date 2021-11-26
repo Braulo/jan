@@ -1,0 +1,17 @@
+FROM node:14 as build
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . . 
+
+RUN npm run build
+
+FROM nginx
+
+COPY --from=build /usr/local/app/dist/sample-angular-app /usr/share/nginx/html
+
+EXPOSE 80
