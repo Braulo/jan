@@ -35,7 +35,7 @@ services:
       database:
         condition: service_healthy
   commentservice:
-    build: ./commentservice
+    build: ./comment
     ports:
       - '80:3202'
     depends_on:
