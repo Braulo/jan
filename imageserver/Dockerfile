@@ -8,6 +8,4 @@ RUN     npm install
 
 VOLUME /usr/src/app/storage
 
-ENV MYSQL_URI=
-
 CMD ["npm", "start"]
