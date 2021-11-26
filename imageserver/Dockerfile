@@ -8,8 +8,6 @@ RUN     npm install
 
 VOLUME /usr/src/app/storage
 
-ENV PORT=8081
-
-EXPOSE ${PORT}
+ENV MYSQL_URI=
 
 CMD ["npm", "start"]
