@@ -7,11 +7,11 @@ services:
     cap_add:
       - SYS_NICE
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_ROOT_USER=root
+      - MYSQL_PASSWORD=jan
+      - MYSQL_USER=jan
       - MYSQL_DATABASE=jan
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      test: ['CMD', 'bash', '-c', 'mysqladmin ping -h localhost && sleep 10']
       retries: 10
     container_name: database
   frontend:
