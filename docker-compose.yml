@@ -7,9 +7,9 @@ services:
     cap_add:
       - SYS_NICE
     environment:
-      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_ROOT_USER=root
-      - MYSQL_DATABASE=skyhook
+      - MYSQL_DATABASE=jan
     healthcheck:
       test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
       retries: 10
@@ -24,6 +24,20 @@ services:
     build: ./authserver
     ports:
       - '3001:3001'
+    depends_on:
+      database:
+        condition: service_healthy
+  imageserver:
+    build: ./imageserver
+    ports:
+      - '80:3201'
+    depends_on:
+      database:
+        condition: service_healthy
+  commentservice:
+    build: ./commentservice
+    ports:
+      - '80:3202'
     depends_on:
       database:
         condition: service_healthy
