@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   // Todo
-  authService: 'http://localhost:3001',
+  authServiceUrl: 'http://localhost:3001/api',
   //Todo
   coreService: 'http://localhost:0000',
 };

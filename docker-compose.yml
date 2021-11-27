@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   database:
-    image: mysql
+    image: mysql:5.7
     ports:
       - '3306:3306'
     cap_add:
@@ -16,7 +16,10 @@ services:
     container_name: database
   frontend:
     build: ./frontend
+      #context: ./frontend
+      #dockerfile: Dockerfilebuild
     ports:
+      # - '80:80'
       - '4200:4200'
     volumes:
       - ./frontend:/app

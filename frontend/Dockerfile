@@ -6,7 +6,7 @@ COPY package.json .
 
 RUN npm install
 
-VOLUME [ "/node_modules" ]
+VOLUME [ "/app/node_modules" ]
 
 COPY . . 
 
