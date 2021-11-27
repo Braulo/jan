@@ -2,13 +2,9 @@ FROM node:14
 
 WORKDIR /app
 
-COPY package.json .
+COPY . . 
 
 RUN npm install
-
-VOLUME [ "/app/node_modules" ]
-
-COPY . . 
 
 RUN npm i -g @angular/cli
 

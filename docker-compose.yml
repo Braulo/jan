@@ -23,18 +23,20 @@ services:
       - 8080:8080
   frontend:
     build: ./frontend
-      #context: ./frontend
-      #dockerfile: Dockerfilebuild
+      # For build (with nginx)
+      # context: ./frontend
+      # dockerfile: Dockerfilebuild
     ports:
+      # For build (with nginx)
       # - '80:80'
       - '4200:4200'
-    volumes:
-      - ./frontend:/app
   authserver:
     build: ./authserver
     restart: always
     ports:
       - '3001:3001'
+    volumes:
+      - ./authserver/src:/app/src
     depends_on:
       database:
         condition: service_healthy
@@ -52,7 +54,7 @@ services:
         condition: service_healthy
   commentservice:
     build: ./comment
-    restart: always
+    # restart: always
     environment:
       - MYSQL_URI=mysql://jan:jan@database/jan
     ports:
