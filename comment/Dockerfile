@@ -6,9 +6,4 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 RUN     npm install
 
-ENV PORT=8080
-ENV MYSQL_URI=
-
-EXPOSE ${PORT}
-
 CMD ["npm", "start"]

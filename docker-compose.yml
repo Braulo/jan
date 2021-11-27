@@ -2,18 +2,25 @@ version: '2.1'
 services:
   database:
     image: mysql:5.7
+    restart: always
     ports:
       - '3306:3306'
     cap_add:
       - SYS_NICE
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_ROOT_USER=root
-      - MYSQL_DATABASE=skyhook
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=jan
+      - MYSQL_USER=jan
+      - MYSQL_DATABASE=jan
     healthcheck:
       test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
       retries: 10
     container_name: database
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
   frontend:
     build: ./frontend
       #context: ./frontend
@@ -25,8 +32,31 @@ services:
       - ./frontend:/app
   authserver:
     build: ./authserver
+    restart: always
     ports:
       - '3001:3001'
+    depends_on:
+      database:
+        condition: service_healthy
+  imageserver:
+    build: ./imageserver
+    restart: always
+    environment:
+      - MYSQL_URI=mysql://jan:jan@database/jan
+    volumes:
+      - ./store-imageserver:/usr/src/app/storage:rw
+    ports:
+      - '3201:80'
+    depends_on:
+      database:
+        condition: service_healthy
+  commentservice:
+    build: ./comment
+    restart: always
+    environment:
+      - MYSQL_URI=mysql://jan:jan@database/jan
+    ports:
+      - '3202:80'
     depends_on:
       database:
         condition: service_healthy
