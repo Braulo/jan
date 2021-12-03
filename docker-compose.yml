@@ -54,7 +54,17 @@ services:
         condition: service_healthy
   commentservice:
     build: ./comment
-    # restart: always
+    restart: always
+    environment:
+      - MYSQL_URI=mysql://jan:jan@database/jan
+    ports:
+      - '3202:80'
+    depends_on:
+      database:
+        condition: service_healthy
+  shoppingservice:
+    build: ./shoppingservice
+    restart: always
     environment:
       - MYSQL_URI=mysql://jan:jan@database/jan
     ports:
