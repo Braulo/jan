@@ -14,8 +14,29 @@ import passport from 'passport';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import { realmApplicationExternalProviderRouter } from './routers/externalProvider.routes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc, { Options } from 'swagger-jsdoc';
+
+const options: Options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Jan',
+      version: '1.0',
+      description: 'AuthServer Jan api doc',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3001',
+      },
+    ],
+  },
+  apis: ['./src/routers/*.ts'],
+};
 
 const app = express();
+
+const specs = swaggerJSDoc(options);
 
 dotenv.config();
 app.use(express.json());
@@ -54,6 +75,8 @@ app.use('/api/realmapplicationurl', isAuth, checkIfUserIsMasterRealmAdmin, realm
 
 // CRUD ExternalProvider (For RealmAdminsOnly)
 app.use('/api/externalprovider', isAuth, checkIfUserIsMasterRealmAdmin, realmApplicationExternalProviderRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // 404
 app.use((_, res) => {

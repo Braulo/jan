@@ -35,11 +35,14 @@ const registerUserInRealmApplication = async (req: Request, res: Response) => {
     const errors = await validate(user);
 
     if (errors.length > 0) {
-      return res.status(400).json(
-        errors.map((vaidationErr) => {
-          return vaidationErr.constraints;
-        }),
-      );
+      const response: ResponseModel<null> = {
+        Message: `${errors.map((validationErr) => validationErr.constraints)}`,
+        Result: null,
+        ResponseId: 'asdfasd',
+        ResponseDateTime: new Date(),
+      };
+
+      return res.status(500).json(response);
     }
 
     user.password = await bcryptjs.hash(password, 12);
@@ -57,7 +60,14 @@ const registerUserInRealmApplication = async (req: Request, res: Response) => {
 
     return res.status(200).json(response);
   } catch (error) {
-    return res.status(400).json(error);
+    const response: ResponseModel<any> = {
+      Message: `Something went wrong`,
+      Result: null,
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+
+    return res.status(500).json(response);
   }
 };
 
@@ -78,25 +88,57 @@ const loginUserForRealmApplication = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      return res.status(400).json({ message: 'E-Mail not found' });
+      const response: ResponseModel<null> = {
+        Message: `E-Mail not found`,
+        Result: null,
+        ResponseId: 'asdfasd',
+        ResponseDateTime: new Date(),
+      };
+      return res.status(500).json(response);
     }
 
     const doPasswordsMatch = await bcryptjs.compare(password, user.password);
 
     if (!doPasswordsMatch) {
-      return res.status(400).json({ message: 'Wrong Password' });
+      const response: ResponseModel<null> = {
+        Message: `Wrong Password`,
+        Result: null,
+        ResponseId: 'asdfasd',
+        ResponseDateTime: new Date(),
+      };
+      return res.status(500).json(response);
     }
 
     if (user.banned) {
-      return res.status(400).json({ message: 'User has been banned for this Realm' });
+      const response: ResponseModel<null> = {
+        Message: `User has been banned for this Realm`,
+        Result: null,
+        ResponseId: 'asdfasd',
+        ResponseDateTime: new Date(),
+      };
+      return res.status(500).json(response);
     }
 
     const accessToken = createAccessToken(user);
     const refreshToken = createRefreshToken(user);
 
-    return res.status(200).json({ accessToken, refreshToken });
+    const response: ResponseModel<{ accessToken: string; refreshToken: string }> = {
+      Message: `User has been banned for this Realm`,
+      Result: { accessToken, refreshToken },
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
-    return res.status(400).json(error);
+    const response: ResponseModel<any> = {
+      Message: `Something went wrong`,
+      Result: null,
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+
+    return res.status(500).json(response);
   }
 };
 
@@ -120,17 +162,41 @@ const refreshAccessToken = async (req: Request, res: Response) => {
     });
 
     if (decodedToken.tokenVersion !== user.refreshTokenVersion) {
-      return res.status(400).json({ accessToken: '' });
+      const response: ResponseModel<any> = {
+        Message: `Tokenversion is wrong`,
+        Result: null,
+        ResponseId: 'asdfasd',
+        ResponseDateTime: new Date(),
+      };
+      return res.status(500).json(response);
     }
 
     if (user.banned) {
-      return res.status(400).json({ message: 'User has been banned for this realm' });
+      const response: ResponseModel<any> = {
+        Message: `User is banned for this Realm`,
+        Result: null,
+        ResponseId: 'asdfasd',
+        ResponseDateTime: new Date(),
+      };
+      return res.status(500).json(response);
     }
 
     const accessToken = createAccessToken(user);
-    return res.status(200).json(accessToken);
+    const response: ResponseModel<{ accessToken: string }> = {
+      Message: `User ${user.username} has a new Refreshtoken`,
+      Result: { accessToken },
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+    return res.status(200).json(response);
   } catch (error) {
-    return res.status(400).json(error);
+    const response: ResponseModel<any> = {
+      Message: `Something went wrong`,
+      Result: null,
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+    return res.status(500).json(response);
   }
 };
 
@@ -155,9 +221,25 @@ const logout = async (req: Request, res: Response) => {
     user.accessTokenVersion++;
 
     await User.save(user);
-    return res.status(200).json(true);
+
+    const response: ResponseModel<{ LogoutSuccess: boolean }> = {
+      Message: `User (${user.email}) has been successfully logged out`,
+      Result: { LogoutSuccess: true },
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
-    return res.status(400).json(error);
+    const response: ResponseModel<any> = {
+      Message: `something went wrong`,
+      Result: null,
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+      Error: 'Something went wrong',
+    };
+
+    return res.status(500).json(response);
   }
 };
 
@@ -236,7 +318,7 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
     await NodeMailerTransporter.sendMail(mailOptions);
     return res.status(200).json(true);
   } catch (error) {
-    return res.status(400).json(error);
+    return res.status(500).json(error);
   }
 };
 
@@ -256,7 +338,7 @@ const getResetPassword = async (req: Request, res: Response) => {
 
     return res.redirect(`${decodedResetPasswordToken.redirectUrl}/${userid}?resetPasswordToken=${resetPasswordToken}`);
   } catch (error) {
-    return res.status(400).send('unvalid link');
+    return res.status(500).send('unvalid link');
   }
 };
 
@@ -277,7 +359,7 @@ const resetPassword = async (req: Request, res: Response) => {
 
     return res.status(200).json(true);
   } catch (error) {
-    return res.status(400).json(error);
+    return res.status(500).json(error);
   }
 };
 export {

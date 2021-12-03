@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { AccessTokenPayload } from '../models/tokenpayload';
 import { User } from '../entities/user.entity';
 import { RequestSkyHook } from '../models/requestSkyhook';
+import { ResponseModel } from '../models/responseModel';
 
 // Checks if the JWT is Valid by decoding it with the Client-Secret if valid: returns the User;
 export const checkToken = async (req: Request, res: Response) => {
@@ -27,18 +28,50 @@ export const checkToken = async (req: Request, res: Response) => {
 
       // Checks the token version
       if (decodedAccessToken.accessTokenVersion !== user.accessTokenVersion) {
-        return res.status(400).json({ message: 'Wrong token version' });
+        const response: ResponseModel<any> = {
+          Message: `Wrong Token version`,
+          Result: null,
+          ResponseId: 'asdfasd',
+          ResponseDateTime: new Date(),
+        };
+        return res.status(500).json(response);
       }
 
       if (user.banned) {
-        return res.status(400).json({ message: 'User has been banned for this Realm' });
+        const response: ResponseModel<any> = {
+          Message: `User has been banned for this Realm`,
+          Result: null,
+          ResponseId: 'asdfasd',
+          ResponseDateTime: new Date(),
+        };
+        return res.status(500).json(response);
       }
 
-      return res.status(200).json(user);
+      const response: ResponseModel<{ user: User }> = {
+        Message: `User ${user.username} has a valid token`,
+        Result: { user },
+        ResponseId: 'asdfasd',
+        ResponseDateTime: new Date(),
+      };
+
+      return res.status(200).json(response);
     }
-    return res.status(400).json({ message: 'No Auth Header/JWT' });
+    const response: ResponseModel<any> = {
+      Message: `No auth header`,
+      Result: null,
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+    return res.status(500).json(response);
   } catch (error) {
-    return res.status(400).json(error);
+    const response: ResponseModel<any> = {
+      Message: `Something went wrong`,
+      Result: null,
+      ResponseId: 'asdfasd',
+      ResponseDateTime: new Date(),
+    };
+
+    return res.status(500).json(response);
   }
 };
 

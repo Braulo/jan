@@ -36,7 +36,7 @@ services:
     ports:
       - '3001:3001'
     volumes:
-      - ./authserver/src:/app/src
+      - ./authserver:/app
     depends_on:
       database:
         condition: service_healthy
