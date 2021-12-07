@@ -4,6 +4,6 @@ export interface AccessToken {
   exp: number;
   iat: number;
   realmApplication: string;
-  userId: string;
+  id: string;
   username: string;
 }

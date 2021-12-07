@@ -30,6 +30,8 @@ services:
       # For build (with nginx)
       # - '80:80'
       - '4200:4200'
+    volumes:
+      - ./frontend:/app
   authserver:
     build: ./authserver
     restart: always

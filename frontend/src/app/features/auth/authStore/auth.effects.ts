@@ -25,17 +25,15 @@ export class AuthEffects {
       ofType(loginAction),
       mergeMap(({ email, password }) =>
         this.authService.login({ email, password }).pipe(
-          map(({ accessToken, refreshToken }) => {
-            this.saveAuthTokensToLocalStorage(accessToken, refreshToken);
+          map(({ Result }) => {
+            this.saveAuthTokensToLocalStorage(Result.accessToken, Result.refreshToken);
             return loginSuccessAction({
-              user: AuthService.decodeAuthTokens(accessToken) as User,
-              accessToken,
-              refreshToken,
+              user: AuthService.decodeAuthTokens(Result.accessToken) as User,
+              accessToken: Result.accessToken,
+              refreshToken: Result.refreshToken,
             });
           }),
-          catchError((err) => {
-            return of(authErrorAction({ err }));
-          }),
+          catchError(({ error }) => of(authErrorAction({ error }))),
         ),
       ),
     ),
@@ -46,17 +44,15 @@ export class AuthEffects {
       ofType(registerAction),
       mergeMap(({ email, password, username }) =>
         this.authService.register({ email, password, username }).pipe(
-          map(({ accessToken, refreshToken }) => {
-            this.saveAuthTokensToLocalStorage(accessToken, refreshToken);
+          map(({ Result }) => {
+            this.saveAuthTokensToLocalStorage(Result.accessToken, Result.refreshToken);
             return registerSuccessAction({
-              user: AuthService.decodeAuthTokens(accessToken) as User,
-              accessToken,
-              refreshToken,
+              user: AuthService.decodeAuthTokens(Result.accessToken) as User,
+              accessToken: Result.accessToken,
+              refreshToken: Result.accessToken,
             });
           }),
-          catchError((err) => {
-            return of(authErrorAction({ err }));
-          }),
+          catchError(({ error }) => of(authErrorAction({ error }))),
         ),
       ),
     ),
@@ -67,13 +63,13 @@ export class AuthEffects {
       ofType(checkTokenAction),
       mergeMap(({ token }) =>
         this.authService.checkToken(token).pipe(
-          map((user) => {
-            return checkTokenSuccessAction({ user });
+          map(({ Result }) => {
+            return checkTokenSuccessAction({ user: Result });
           }),
-          catchError((err) => {
+          catchError(({ error }) => {
             this.snackbarService.show('session invalid, please login again');
             localStorage.removeItem('accessToken');
-            return of(authErrorAction({ err }));
+            return of(authErrorAction({ error }));
           }),
         ),
       ),
@@ -90,7 +86,7 @@ export class AuthEffects {
             localStorage.removeItem('refreshToken');
             return logoutSuccessAction();
           }),
-          catchError((err) => of(authErrorAction({ err }))),
+          catchError(({ error }) => of(authErrorAction({ error }))),
         ),
       ),
     ),

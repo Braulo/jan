@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class RegisterComponent implements OnInit {
   public registerForm: FormGroup;
-  public error: Observable<any>;
+  public error: Observable<string>;
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}
 
@@ -22,8 +22,8 @@ export class RegisterComponent implements OnInit {
       email: ['test@test.de', [Validators.required, Validators.email]],
       passwords: this.formBuilder.group(
         {
-          password: ['123'],
-          passwordConfirm: ['123'],
+          password: ['123', [Validators.required]],
+          passwordConfirm: ['123', [Validators.required]],
         },
         {
           validators: [this.checkPasswords],

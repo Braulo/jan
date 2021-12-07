@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { ResponseModel } from 'src/app/shared/models/response-model';
 import { User } from 'src/app/shared/models/user.model';
 
 export const loginAction = createAction('[Auth] Login', props<{ email: string; password: string }>());
@@ -26,4 +27,4 @@ export const logoutAction = createAction('[Auth] Logout');
 
 export const logoutSuccessAction = createAction('[Auth] Logout Success');
 
-export const authErrorAction = createAction('[AUTH] auth error', props<{ err: any }>());
+export const authErrorAction = createAction('[AUTH] auth error', props<{ error: ResponseModel<null> }>());

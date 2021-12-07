@@ -11,10 +11,10 @@ export const userRouter = express.Router();
 
 userRouter.get('/getallusersinrealm/:realmId', getAllUsersByRealmId);
 
-userRouter.get('/logout/:userId', logoutUserById);
+userRouter.get('/logout/:id', logoutUserById);
 
-userRouter.get('/ban/:userId', banUserById);
+userRouter.get('/ban/:id', banUserById);
 
-userRouter.get('/unban/:userId', unbanUserById);
+userRouter.get('/unban/:id', unbanUserById);
 
 userRouter.put('', updateUser);

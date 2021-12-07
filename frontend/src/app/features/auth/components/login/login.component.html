@@ -1,5 +1,4 @@
 <div *transloco="let t" class="login-wrapper">
-  <h1>{{ t('auth.login.login') }}</h1>
   <form [formGroup]="loginForm" (submit)="login()" class="login-form">
     <mat-form-field appearance="outline">
       <mat-label>{{ t('auth.login.email') }}</mat-label>
@@ -12,7 +11,7 @@
       <input matInput type="password" formControlName="password" />
     </mat-form-field>
 
-    <mat-error>{{ (error | async)?.error?.message }}</mat-error>
+    <mat-error>{{ error | async }}</mat-error>
     <button mat-raised-button type="submit" [disabled]="!loginForm.valid">{{ t('auth.login.login') }}</button>
     <br />
     <button mat-raised-button>

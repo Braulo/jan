@@ -21,7 +21,7 @@ export const checkToken = async (req: Request, res: Response) => {
     if (authHeader) {
       const decodedAccessToken = jwt.verify(authHeader, realmApplication.clientSecret) as AccessTokenPayload;
       const user = await User.findOneOrFail({
-        where: { id: decodedAccessToken.userId },
+        where: { id: decodedAccessToken.id },
         relations: ['realmRoles'],
         select: ['id', 'email', 'username', 'emailConfirmed', 'accessTokenVersion', 'banned'],
       });
@@ -47,9 +47,9 @@ export const checkToken = async (req: Request, res: Response) => {
         return res.status(500).json(response);
       }
 
-      const response: ResponseModel<{ user: User }> = {
+      const response: ResponseModel<User> = {
         Message: `User ${user.username} has a valid token`,
-        Result: { user },
+        Result: user,
         ResponseId: 'asdfasd',
         ResponseDateTime: new Date(),
       };
@@ -90,7 +90,7 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
     if (authHeader) {
       const decodedAccessToken = jwt.verify(authHeader, realmApplication.clientSecret) as AccessTokenPayload;
       const user = await User.findOneOrFail({
-        where: { id: decodedAccessToken.userId },
+        where: { id: decodedAccessToken.id },
         relations: ['realmRoles'],
         select: ['id', 'email', 'username', 'emailConfirmed', 'accessTokenVersion', 'banned'],
       });
@@ -123,7 +123,7 @@ export const createAccessToken = (user: User) => {
       realmRoles: user?.realmRoles?.map((realmRole) => {
         return realmRole.name;
       }),
-      userId: user.id,
+      id: user.id,
       realmApplication: user.realmApplication.id,
       accessTokenVersion: user.accessTokenVersion,
     },
@@ -136,7 +136,7 @@ export const createAccessToken = (user: User) => {
 export const createRefreshToken = (user: User) => {
   return jwt.sign(
     {
-      userId: user.id,
+      id: user.id,
       realmApplicationId: user.realmApplication.id,
       tokenVersion: user.refreshTokenVersion,
     },

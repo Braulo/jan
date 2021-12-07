@@ -15,7 +15,7 @@ import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
-  public error: Observable<any>;
+  public error: Observable<string>;
 
   constructor(
     private formbuilder: FormBuilder,

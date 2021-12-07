@@ -21,6 +21,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.store.select(getCurrentUser);
+
     this.allLanguages = this.translocoservice.getAvailableLangs();
     this.activeLang = localStorage.getItem('language');
   }

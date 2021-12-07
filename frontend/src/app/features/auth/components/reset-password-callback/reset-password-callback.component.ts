@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 })
 export class ResetPasswordCallbackComponent implements OnInit {
   public resetPasswordForm: FormGroup;
-  public userid: string;
+  public id: string;
   public refreshPasswordToken: string;
   public response: any;
   public decodedToken: DecodedResetPasswordToken;
@@ -39,12 +39,12 @@ export class ResetPasswordCallbackComponent implements OnInit {
       this.refreshPasswordToken = resetPasswordToken;
     });
 
-    this.activatedRoute.params.subscribe(({ userid }) => (this.userid = userid));
+    this.activatedRoute.params.subscribe(({ id }) => (this.id = id));
   }
 
   resetPassword() {
     const newPassword = this.resetPasswordForm.get('newPassword').value;
-    this.authService.resetPassword(this.userid, this.refreshPasswordToken, newPassword).subscribe((res) => {
+    this.authService.resetPassword(this.id, this.refreshPasswordToken, newPassword).subscribe((res) => {
       if (res) {
         this.response = 'Your password has been reset please login, you will be redirected in 5 secounds';
         setTimeout(() => {

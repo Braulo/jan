@@ -6,10 +6,10 @@ import { User } from '../entities/user.entity';
 // POST => /api/realmRole/realmID
 // ToDo
 const addRealmRoleToUserById = async (req: Request, res: Response) => {
-  const { roleId, userId } = req.body;
+  const { roleId, id } = req.body;
 
   try {
-    const user = await User.findOneOrFail(userId);
+    const user = await User.findOneOrFail(id);
     const role = await RealmRole.findOneOrFail(roleId);
 
     user.realmRoles.push(role);

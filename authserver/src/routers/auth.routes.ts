@@ -234,7 +234,7 @@ authRouter.post('/login', loginUserForRealmApplication);
  *                      user:
  *                        type: object
  *                        properties:
- *                          userId:
+ *                          id:
  *                            type: string
  *                          username:
  *                            type: string
@@ -276,9 +276,9 @@ authRouter.post(
 
 authRouter.post('/forgot-password', forgotPassword);
 
-authRouter.get('/reset-password/:userid', getResetPassword);
+authRouter.get('/reset-password/:id', getResetPassword);
 
-authRouter.post('/reset-password/:userid', resetPassword);
+authRouter.post('/reset-password/:id', resetPassword);
 
 /**
  * @swagger
@@ -311,7 +311,7 @@ authRouter.post('/reset-password/:userid', resetPassword);
  *                      user:
  *                        type: object
  *                        properties:
- *                          userId:
+ *                          id:
  *                            type: string
  *                          username:
  *                            type: string

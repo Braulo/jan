@@ -5,7 +5,7 @@ import { IsloggedinGuard } from './shared/guards/isloggedin.guard';
 
 const routes: Routes = [
   {
-    path: 'reset-password/:userid',
+    path: 'reset-password/:id',
     // canActivate: [IsloggedinGuard],
     component: ResetPasswordCallbackComponent,
   },

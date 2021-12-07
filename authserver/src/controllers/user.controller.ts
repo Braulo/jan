@@ -35,10 +35,10 @@ const updateUser = async (req: Request, res: Response) => {
 };
 
 const logoutUserById = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { id } = req.params;
 
   try {
-    const user = await User.findOneOrFail(userId);
+    const user = await User.findOneOrFail(id);
     user.accessTokenVersion++;
     user.refreshTokenVersion++;
     await User.save(user);
@@ -50,10 +50,10 @@ const logoutUserById = async (req: Request, res: Response) => {
 };
 
 const banUserById = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { id } = req.params;
 
   try {
-    const user = await User.findOneOrFail(userId);
+    const user = await User.findOneOrFail(id);
     user.banned = true;
     await User.save(user);
 
@@ -64,10 +64,10 @@ const banUserById = async (req: Request, res: Response) => {
 };
 
 const unbanUserById = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { id } = req.params;
 
   try {
-    const user = await User.findOneOrFail(userId);
+    const user = await User.findOneOrFail(id);
     user.banned = false;
     await User.save(user);
 

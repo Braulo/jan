@@ -6,8 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth-dialog.component.scss'],
 })
 export class AuthDialogComponent implements OnInit {
-  public isLogin: boolean = true;
-  public isResetPassword: boolean = false;
+  public selectedComponents: string = 'Login';
 
   constructor() {}
 

@@ -5,6 +5,6 @@ export interface DecodedResetPasswordToken {
   realmApplication: string;
   realmApplicationClientId: string;
   redirectUrl: string;
-  userId: string;
+  id: string;
   username: string;
 }

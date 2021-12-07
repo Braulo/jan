@@ -123,7 +123,7 @@ const loginUserForRealmApplication = async (req: Request, res: Response) => {
     const refreshToken = createRefreshToken(user);
 
     const response: ResponseModel<{ accessToken: string; refreshToken: string }> = {
-      Message: `User has been banned for this Realm`,
+      Message: `Login success`,
       Result: { accessToken, refreshToken },
       ResponseId: 'asdfasd',
       ResponseDateTime: new Date(),
@@ -157,7 +157,7 @@ const refreshAccessToken = async (req: Request, res: Response) => {
     // ToDo set 'supersecret' password to realmApplication column
     const decodedToken = jwt.verify(refreshToken, realmApplication.clientSecret) as RefreshTokenPayload;
 
-    const user = await User.findOneOrFail(decodedToken.userId, {
+    const user = await User.findOneOrFail(decodedToken.id, {
       relations: ['realmApplication', 'realmRoles'],
     });
 
@@ -213,7 +213,7 @@ const logout = async (req: Request, res: Response) => {
     });
     const decodedToken = jwt.verify(refreshToken, realmApplication.clientSecret) as RefreshTokenPayload;
 
-    const user = await User.findOneOrFail(decodedToken.userId, {
+    const user = await User.findOneOrFail(decodedToken.id, {
       relations: ['realmApplication'],
     });
 
@@ -279,7 +279,6 @@ const createGoogleAuthStrategy = async (req: Request, res: Response, next: NextF
 const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
   const { clientId } = req.query;
   const { email } = req.body;
-  console.log('forgot password test', email, clientId);
 
   try {
     const user = await User.createQueryBuilder('user')
@@ -298,7 +297,7 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
       {
         email: user.email,
         username: user.username,
-        userId: user.id,
+        id: user.id,
         realmApplication: user.realmApplication.id,
         realmApplicationClientId: user.realmApplication.clientId,
         redirectUrl: user.realmApplication.realmApplicationURLs[0].url,
@@ -324,10 +323,10 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
 
 const getResetPassword = async (req: Request, res: Response) => {
   const { resetPasswordToken } = req.query as any;
-  const { userid } = req.params;
+  const { id } = req.params;
 
   try {
-    const user = await User.findOneOrFail(userid, {
+    const user = await User.findOneOrFail(id, {
       relations: ['realmApplication'],
     });
 
@@ -336,7 +335,9 @@ const getResetPassword = async (req: Request, res: Response) => {
       user.realmApplication.clientSecret + user.password,
     ) as any;
 
-    return res.redirect(`${decodedResetPasswordToken.redirectUrl}/${userid}?resetPasswordToken=${resetPasswordToken}`);
+    return res.redirect(
+      `${decodedResetPasswordToken.redirectUrl}/reset-password/${id}?resetPasswordToken=${resetPasswordToken}`,
+    );
   } catch (error) {
     return res.status(500).send('unvalid link');
   }
@@ -344,10 +345,10 @@ const getResetPassword = async (req: Request, res: Response) => {
 
 const resetPassword = async (req: Request, res: Response) => {
   const { resetPasswordToken } = req.query as any;
-  const { userid } = req.params;
+  const { id } = req.params;
   const { password } = req.body;
   try {
-    const user = await User.findOneOrFail(userid, {
+    const user = await User.findOneOrFail(id, {
       relations: ['realmApplication'],
     });
 

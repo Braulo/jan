@@ -9,10 +9,24 @@
 
   .auth-dialog-wrapper {
     height: auto;
-    p {
-      cursor: pointer;
-      margin-top: 1rem !important;
-      text-align: center;
+    width: 25vw;
+    height: 40vh;
+
+    .auth-nav {
+      display: flex;
+      justify-content: space-around;
+      margin: 0rem 0rem 2rem;
+
+      .active {
+        background-color: mat-color($primary);
+        border-radius: 20rem;
+      }
+
+      h2 {
+        cursor: pointer;
+        text-align: center;
+        padding: 0.3rem !important;
+      }
     }
   }
 }

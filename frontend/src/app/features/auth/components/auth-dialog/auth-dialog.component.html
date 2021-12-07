@@ -1,16 +1,25 @@
 <div *transloco="let t" class="auth-dialog-wrapper">
-  <div *ngIf="isLogin; else register">
-    <jan-login></jan-login>
-    <p (click)="isLogin = !isLogin">{{ t('auth.registerhere') }}</p>
-  </div>
+  <nav class="auth-nav">
+    <div (click)="selectedComponents = 'Login'" [ngClass]="{ active: selectedComponents === 'Login' }">
+      <h2>Login</h2>
+    </div>
+    <div (click)="selectedComponents = 'Register'" [ngClass]="{ active: selectedComponents === 'Register' }">
+      <h2>Register</h2>
+    </div>
+    <div (click)="selectedComponents = 'Reset'" [ngClass]="{ active: selectedComponents === 'Reset' }">
+      <h2>Reset</h2>
+    </div>
+  </nav>
 
-  <ng-template #register>
-    <jan-register></jan-register>
-    <p (click)="isLogin = !isLogin">{{ t('auth.loginhere') }}</p>
-  </ng-template>
-
-  <div *ngIf="isResetPassword && isLogin">
-    <jan-reset-password></jan-reset-password>
+  <div [ngSwitch]="selectedComponents">
+    <div *ngSwitchCase="'Login'">
+      <jan-login></jan-login>
+    </div>
+    <div *ngSwitchCase="'Register'">
+      <jan-register></jan-register>
+    </div>
+    <div *ngSwitchCase="'Reset'">
+      <jan-reset-password></jan-reset-password>
+    </div>
   </div>
-  <p (click)="isResetPassword = true && isLogin">{{ t('auth.forgotpassword') }}</p>
 </div>

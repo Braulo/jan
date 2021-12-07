@@ -15,7 +15,7 @@ export interface State {
   currentUser: User;
   accessToken: string;
   refreshToken: string;
-  error: any;
+  error: string;
   isLoggedIn: boolean;
 }
 
@@ -28,8 +28,8 @@ export const reducers = createReducer(
   on(loginSuccessAction, registerSuccessAction, (state, { user, accessToken, refreshToken }) => {
     return { ...state, currentUser: user, accessToken, refreshToken, isLoggedIn: true };
   }),
-  on(authErrorAction, (state, { err }) => {
-    return { ...state, error: err };
+  on(authErrorAction, (state, { error }) => {
+    return { ...state, error: error.Message || '' };
   }),
   on(checkTokenSuccessAction, (state, { user }) => {
     return {

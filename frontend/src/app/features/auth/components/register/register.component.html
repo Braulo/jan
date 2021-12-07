@@ -1,5 +1,4 @@
 <div *transloco="let t" class="register-wrapper">
-  <h1>{{ t('auth.register.register') }}</h1>
   <form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
     <mat-form-field appearance="outline">
       <mat-label>{{ t('auth.register.username') }}</mat-label>
@@ -27,7 +26,7 @@
       <mat-error *ngIf="!registerForm.controls['passwords'].valid">{{ t('auth.register.passwordnotmatch') }}</mat-error>
     </div>
 
-    <mat-error>{{ (error | async)?.error.message }}</mat-error>
+    <mat-error>{{ error | async }}</mat-error>
     <button mat-raised-button type="submit" [disabled]="!registerForm.valid">{{ t('auth.register.register') }}</button>
   </form>
 </div>
