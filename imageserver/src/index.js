@@ -8,6 +8,7 @@ const FS = require('fs')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid')
 const morgan = require( 'morgan' )
+// const gm = require('gm')
 
 const PORT = process.env.PORT || 80
 const STORAGE_PATH = process.env.STORAGE_PATH || './storage'
@@ -39,10 +40,11 @@ app.post('/', (req, res, next) => {
             fs.stat(STORAGE_PATH)
                 .catch(e => fs.mkdir(STORAGE_PATH))
                 .then(() => fs.mkdir(path.join(STORAGE_PATH, id)))
-                .then(() => new Promise((resolve, reject) => {
-                    file.pipe(FS.createWriteStream(path.join(STORAGE_PATH, id, filename)))
-                    file.on('end', () => fs.writeFile(path.join(STORAGE_PATH, id, '.filename'), filename).then(_ => resolve(id)).catch(e => reject(e)))
-                    file.on('error', (e) => reject(e))
+                .then(() => gm(file).stream('jpg'))
+                .then((filestream) => new Promise((resolve, reject) => {
+                    filestream.pipe(FS.createWriteStream(path.join(STORAGE_PATH, id, filename)))
+                    filestream.on('end', () => fs.writeFile(path.join(STORAGE_PATH, id, '.filename'), filename).then(_ => resolve(id)).catch(e => reject(e)))
+                    filestream.on('error', (e) => reject(e))
                 }))
             )
     })
