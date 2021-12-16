@@ -16,6 +16,7 @@ const router = express.Router()
  *         name: memberId
  *         schema:
  *           type: string
+ *           format: uuid
  *         required: true
  *         description: UUID of Member
  *     responses:
@@ -62,6 +63,7 @@ router.get('/:member/families', (req, res, next) => {
  *         name: memberId
  *         schema:
  *           type: string
+ *           format: uuid
  *         required: true
  *         description: UUID of Member
  *     responses:

@@ -16,6 +16,7 @@ const router = express.Router()
  *         name: listId
  *         schema:
  *           type: string
+ *           format: uuid
  *         required: true
  *         description: UUID of List
  *     responses:
@@ -33,15 +34,18 @@ const router = express.Router()
  *                 Result:
  *                   type: object
  *                   properties:
- *                     user:
- *                       type: object
- *                       properties:
- *                         userId:
- *                           type: string
- *                         username:
- *                           type: string
- *                         email:
- *                           type: string
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                     owner:
+ *                       type: string
+ *                       format: uuid
+ *                     family:
+ *                       type: string
+ *                       format: uuid
+ *                     shoppinglist:
+ *                       type: string
+ *                       format: uuid
  *                 Message:
  *                   type: string
  */
