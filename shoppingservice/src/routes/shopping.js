@@ -58,6 +58,50 @@ router.get('/:list', (req, res, next) => {
         .catch(next)
 })
 
+/**
+ * @swagger
+ * /shopping/{listId}:
+ *   post:
+ *     summary: add item to list
+ *     parameters:
+ *       - in: path
+ *         name: listId
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         required: true
+ *         description: UUID of List
+ *       - in: body
+ *         name: owner
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         required: true
+ *         description: UUID of Owner
+ *       - in: body
+ *         name: family
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         required: true
+ *         description: UUID of Family
+ *     responses:
+ *       200:
+ *         description: successfully added to family
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ResponseId:
+ *                   type: string
+ *                 ResponseDateTime:
+ *                   type: integer
+ *                 Result:
+ *                   type: boolean
+ *                 Message:
+ *                   type: string
+ */
 router.post('/:list', (req, res, next) => {
     const id = uuidv4()
     db.execute('INSERT INTO listitem (id, owner, family, shoppinglist) values (?, ?, ?, ?)', [id, req.body.owner, req.body.family, req.params.list])
