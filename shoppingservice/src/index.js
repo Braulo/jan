@@ -56,7 +56,6 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs))
 /* Error Handler */
 app.use((err, req, res, next) => res.status(500).json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: err.message, Message: err.name }))
 
-
 mysql.createConnection(MYSQL_URI)
   .then(c => connection = c)
   .then(() => connection.connect())

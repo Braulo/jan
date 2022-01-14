@@ -57,4 +57,16 @@ router.get('/:list', (req, res, next) => {
         .catch(next)
 })
 
+router.post('/:list', (req, res, next) => {
+    const id = uuidv4()
+    req.mysql.execute('INSERT INTO listitem (id, owner, family, shoppinglist) values (?, ?, ?, ?)', [id, req.body.owner, req.body.family, req.params.list])
+        .then(() => res.json({
+            ResponseId: id,
+            ResponseDateTime: Date.now(),
+            Result: true,
+            Message: "Success"
+        }))
+        .catch(next)
+})
+
 module.exports = router

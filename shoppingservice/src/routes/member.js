@@ -53,6 +53,17 @@ router.get('/:member/families', (req, res, next) => {
         .catch(next)
 })
 
+router.post('/:member/:family', (req, res, next) => {
+    req.mysql.execute('INSERT INTO familymembers (family, member) values (?, ?)', [req.params.family, req.params.member])
+        .then(() => res.json({
+            ResponseId: uuidv4(),
+            ResponseDateTime: Date.now(),
+            Result: true,
+            Message: "Success"
+        }))
+        .catch(next)
+})
+
 /**
  * @swagger
  * /member/{memberId}:
