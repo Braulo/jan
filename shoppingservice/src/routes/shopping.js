@@ -32,20 +32,22 @@ const router = express.Router()
  *                 ResponseDateTime:
  *                   type: integer
  *                 Result:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       format: uuid
- *                     owner:
- *                       type: string
- *                       format: uuid
- *                     family:
- *                       type: string
- *                       format: uuid
- *                     shoppinglist:
- *                       type: string
- *                       format: uuid
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         format: uuid
+ *                       owner:
+ *                         type: string
+ *                         format: uuid
+ *                       family:
+ *                         type: string
+ *                         format: uuid
+ *                       shoppinglist:
+ *                         type: string
+ *                         format: uuid
  *                 Message:
  *                   type: string
  */

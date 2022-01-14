@@ -1,9 +1,12 @@
 const express = require('express')
+const process = require('process')
 
 const swaggerUI = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
 
 const app = express()
+
+const PORT = process.env.PORT || 8080
 
 const options = {
 definition: {
@@ -20,4 +23,4 @@ definition: {
 const specs = swaggerJsDoc(options)
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs))
 
-app.listen(8080, console.log.bind(null, "Listening on 8080"))
+app.listen(PORT, console.log.bind(null, "Listening on", PORT))
