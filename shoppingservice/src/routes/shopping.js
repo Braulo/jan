@@ -104,7 +104,7 @@ router.get('/:list', (req, res, next) => {
  */
 router.post('/:list', (req, res, next) => {
     const id = uuidv4()
-    db.execute('INSERT INTO listitem (id, owner, family, shoppinglist) values (?, ?, ?, ?)', [id, req.body.owner, req.body.family, req.params.list])
+    db.execute('INSERT INTO listitem (id, owner, family, count, shoppinglist) values (?, ?, ?, ?, ?)', [id, req.body.owner, req.body.family, req.body.count, req.params.list])
         .then(() => res.json({
             ResponseId: id,
             ResponseDateTime: Date.now(),
@@ -112,6 +112,40 @@ router.post('/:list', (req, res, next) => {
             Message: "Success"
         }))
         .catch(next)
+})
+
+router.put('/:list', (req, res, next) => {
+    db.execute('UPDATE shoppinglist SET owner = ?, family = ?, thumbnail = ?, title = ?, status = ? WHERE id = ?', [
+        req.body.owner,
+        req.body.family,
+        req.body.thumbnail,
+        req.body.title,
+        parseInt(req.body.status),
+        req.params.list
+    ]).then(() => res.json({
+        ResponseId: null,
+        ResponseDateTime: Date.now(),
+        Result: true,
+        Message: "Success"
+    })).catch(next)
+})
+
+router.delete('/:list', (req, res, next) => {
+    db.execute('DELETE shoppinglist WHERE id = ?', [req.params.list]).then(() => res.json({
+        ResponseId: null,
+        ResponseDateTime: Date.now(),
+        Result: true,
+        Message: "Success"
+    })).catch(next)
+})
+
+router.delete('/:list/:product', (req, res, next) => {
+    db.execute('DELETE shoppinglist WHERE family = ? AND id = ?', [req.params.list, req.params.product]).then(() => res.json({
+        ResponseId: null,
+        ResponseDateTime: Date.now(),
+        Result: true,
+        Message: "Success"
+    })).catch(next)
 })
 
 module.exports = router

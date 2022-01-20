@@ -22,16 +22,14 @@ services:
     ports:
       - 8080:8080
   frontend:
-    build: ./frontend
-      # For build (with nginx)
-      # context: ./frontend
-      # dockerfile: Dockerfilebuild
+    build: ./next-core
+    environment:
+      - MYSQL_URI=mysql://jan:jan@database/jan
     ports:
-      # For build (with nginx)
-      # - '80:80'
-      - '4200:4200'
-    volumes:
-      - ./frontend:/app
+      - '3349:3000'
+    depends_on:
+      database:
+        condition: service_healthy
   authserver:
     build: ./authserver
     restart: always
