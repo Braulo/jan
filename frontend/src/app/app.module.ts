@@ -12,16 +12,17 @@ import { reducers } from './store';
 import { AuthModule } from '@features/auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
+import { logoutAction, logoutSuccessAction } from '@features/auth/authStore/auth.actions';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    AuthModule,
     BrowserModule,
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    AuthModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, { metaReducers: [logout] }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       autoPause: true,
@@ -34,3 +35,9 @@ import { TranslocoRootModule } from './transloco-root.module';
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+function logout(reducer) {
+  return function (state, action) {
+    return reducer(action.type === logoutAction ? undefined : state, action);
+  };
+}

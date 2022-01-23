@@ -15,7 +15,7 @@ export class IsloggedinGuard implements CanActivate {
     return this.store.select(getIsLoggedIn).pipe(
       map((res) => {
         if (!res) {
-          this.router.navigate(['/shoppinglist']);
+          this.router.navigate(['/families']);
         }
         return res;
       }),

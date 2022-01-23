@@ -1,6 +1,7 @@
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { interval, Observable } from 'rxjs';
+import { delay, map, retryWhen, switchMap, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AccessToken } from '../../models/access-token';
 import { DecodedResetPasswordToken } from '../../models/decoded-reset-password-token';
@@ -17,6 +18,7 @@ export class AuthService {
   constructor(private apiService: ApiService, private httpClient: HttpClient) {}
 
   private endpoint: string = '/auth';
+
   // Todo sollte eig der core sein aber der gute herr studendenererao mach nicht hinne
   private authService: string = environment.authServiceUrl;
 
@@ -41,9 +43,20 @@ export class AuthService {
   }
 
   checkToken(token: string): Observable<ResponseModel<User>> {
-    return this.httpClient.get<ResponseModel<User>>(this.authService + this.endpoint + '/checktoken?clientId=Jan', {
-      headers: { Authorization: token },
-    });
+    return this.httpClient
+      .get<ResponseModel<User>>(this.authService + this.endpoint + '/checktoken?clientId=Jan', {
+        headers: { Authorization: token },
+        reportProgress: true,
+        observe: 'events',
+      })
+      .pipe(
+        map((event) => {
+          if (event.type === HttpEventType.Response) {
+            return event.body;
+          }
+          return { Message: '' } as any;
+        }),
+      );
   }
 
   logout(refreshToken: string): Observable<boolean> {
@@ -74,5 +87,25 @@ export class AuthService {
 
   public static decodeRefreshPasswordToken(refreshPasswordToken: string): DecodedResetPasswordToken {
     return JSON.parse(atob(refreshPasswordToken.split('.')[1]));
+  }
+
+  refreshAccessToken(): Observable<string> {
+    return this.apiService.post(this.authService, this.endpoint + `/refreshaccesstoken`, {
+      refreshToken: localStorage.getItem('refreshToken'),
+    });
+  }
+
+  startAutoRefresh() {
+    const accessTokenCheckInterval = interval(2000);
+    accessTokenCheckInterval
+      .pipe(
+        switchMap(() => {
+          return this.refreshAccessToken();
+        }),
+        retryWhen((errors) => errors.pipe(delay(50000), take(10))),
+      )
+      .subscribe((res) => {
+        localStorage.setItem('accessToken', res);
+      });
   }
 }

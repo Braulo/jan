@@ -1,0 +1,30 @@
+@use '~@angular/material' as mat;
+
+@mixin shoppinglist-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, danger);
+  $background: mat.get-color-from-palette(map-get($theme, background), background);
+  $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
+
+  .shoppinglists-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .add-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .all-shoppinglists {
+      background-color: mat-color($accent);
+      border-radius: 0.5rem;
+      padding: 1rem;
+    }
+  }
+}

@@ -63,34 +63,3 @@ export const createJan = async () => {
 
   await ExternalProvider.save(externalProvider);
 };
-
-// export const checkRealmApplicationURL = async (req: Request, res: Response, next: NextFunction) => {
-//   const clientId = req.query.clientId as string;
-//   // This is useless because you can easy manipulate the 'Referer attribute'
-//   const requestURL = req.get('Referer');
-
-//   try {
-//     const urlsforRealmApplication = await RealmApplicationURL.find({
-//       relations: ['realmApplication'],
-//       where: {
-//         realmApplication: {
-//           clientId,
-//         },
-//       },
-//     });
-
-//     const isRealmApplicationUrl = urlsforRealmApplication.find((realmApplicationURL) => {
-//       return realmApplicationURL.url === requestURL;
-//     });
-
-//     if (!isRealmApplicationUrl) {
-//       return res.status(400).json({
-//         message: 'Wrong request URL',
-//       });
-//     }
-
-//     next();
-//   } catch (error) {
-//     return res.status(400).json(error);
-//   }
-// };

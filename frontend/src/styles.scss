@@ -1,19 +1,23 @@
 @use '~@angular/material' as mat;
 @import './theme/jan-theme.scss';
 @import './theme/jan-custom-component-theme.scss';
-/* You can add global styles to this file, and also import other style files */
 
 h1,
 h2,
 h3,
+ul,
 p {
+  list-style: none;
   padding: 0 !important;
   margin: 0 !important;
+  line-break: anywhere;
 }
 
 html,
 body {
+  box-sizing: border-box;
   height: 100%;
+  width: 100%;
 }
 body {
   margin: 0;

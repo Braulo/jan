@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { getMyFamiliesAction } from '@features/family/FamilyStore/family.actions';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { User } from 'src/app/shared/models/user.model';
@@ -111,5 +113,6 @@ export class AuthEffects {
     private authService: AuthService,
     private snackbarService: SnackbarService,
     private router: Router,
+    private store: Store,
   ) {}
 }

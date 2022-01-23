@@ -1,0 +1,43 @@
+@use '~@angular/material' as mat;
+
+@mixin families-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, danger);
+  $background: mat.get-color-from-palette(map-get($theme, background), background);
+  $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
+
+  .families-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    mat-option,
+    mat-chip {
+      background-color: mat-color($accent) !important;
+    }
+
+    .add-family {
+      //   display: flex;
+      //   flex-direction: column;
+      mat-form-field,
+      button {
+        margin: 1rem;
+      }
+    }
+
+    .all-my-families {
+      background-color: mat-color($accent);
+      padding: 1.5rem;
+      margin: 1rem;
+      border-radius: 0.5rem;
+
+      .family-item {
+        margin: 1rem;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@use '~@angular/material' as mat;
+
+@mixin account-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, danger);
+  $background: mat.get-color-from-palette(map-get($theme, background), background);
+  $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
+  mat-option {
+    background-color: mat-color($accent) !important;
+  }
+  .account-wrapper {
+    background-color: $background;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+
+    .account-details {
+      background-color: mat-color($accent);
+      padding: 1.5rem;
+      margin: 1rem;
+      border-radius: 0.5rem;
+    }
+  }
+}

@@ -7,20 +7,31 @@
   $background: mat.get-color-from-palette(map-get($theme, background), background);
   $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
 
-  .navbar-wrapper {
-    background-color: mat-color($accent);
+  .navbar {
+    min-height: 5vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: mat-color($accent);
 
-    .navbar-links {
+    .active-link {
+      color: mat-color($primary) !important;
+    }
+
+    .options-start {
+      cursor: pointer;
+    }
+    .options-end {
       display: flex;
-      list-style: none;
-      align-items: center;
-      li {
-        margin: 0 0.5rem;
+
+      .account {
         display: flex;
-        align-items: center;
+
+        .user {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+        }
       }
     }
   }

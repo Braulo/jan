@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,6 +31,8 @@ import { TranslocoModule } from '@ngneat/transloco';
     TranslocoModule,
     MatSelectModule,
     MatTooltipModule,
+    MatAutocompleteModule,
+    MatChipsModule,
   ],
   exports: [
     NavbarComponent,
@@ -41,6 +45,9 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatSelectModule,
     TranslocoModule,
     MatTooltipModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatChipsModule,
   ],
 })
 export class SharedModule {}

@@ -18,6 +18,36 @@ const getAllUsersByRealmId = async (req: Request, res: Response) => {
   }
 };
 
+const getUsersByUsername = async (req: Request, res: Response) => {
+  const { username } = req.params;
+
+  try {
+    const users = await User.createQueryBuilder('users')
+      .where('users.username like :username', { username: '%' + username + '%' })
+      .select(['users.username', 'users.email', 'users.id'])
+      .getMany();
+
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+const getUserById = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  try {
+    const userResult = await User.findOne({
+      where: { id: userId },
+      select: ['email', 'username', 'id'],
+    });
+
+    return res.status(200).json(userResult);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
 const updateUser = async (req: Request, res: Response) => {
   const { id, email, username, realmRoles, realmApplication } = req.body;
 
@@ -77,4 +107,12 @@ const unbanUserById = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllUsersByRealmId, updateUser, logoutUserById, banUserById, unbanUserById };
+export {
+  getAllUsersByRealmId,
+  updateUser,
+  logoutUserById,
+  banUserById,
+  unbanUserById,
+  getUsersByUsername,
+  getUserById,
+};

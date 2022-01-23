@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { getCurrentUser } from '@features/auth/authStore/auth.selectors';
 import { AuthDialogComponent } from '@features/auth/components/auth-dialog/auth-dialog.component';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 

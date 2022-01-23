@@ -1,19 +1,15 @@
-<div *transloco="let t">
-  <h1>{{ t('account.account') }}</h1>
-  <div *ngIf="currentUser | async as user">
-    <h3>
-      {{ t('account.email') }}
+<div class="account-wrapper" *transloco="let t">
+  <h1>Account Details</h1>
+  <div class="account-details" *ngIf="this.currentUser | async as user">
+    <h2>
+      {{ t('account.email') }}:
       {{ user.email }}
-    </h3>
-    <h3>
-      {{ t('account.username') }}
+    </h2>
+    <h2>
+      {{ t('account.username') }}:
       {{ user.username }}
-    </h3>
-    <h3>
-      id
-      {{ user.id }}
-    </h3>
-    <mat-form-field appearance="fill">
+    </h2>
+    <mat-form-field appearance="outline">
       <mat-label>{{ t('account.language') }}</mat-label>
       <mat-select (selectionChange)="changeLanguage($event)" [value]="this.activeLang">
         <mat-option *ngFor="let language of allLanguages" [value]="language">
@@ -21,6 +17,6 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-raised-button (click)="logout()">{{ t('account.logout') }}</button>
   </div>
+  <button color="primary" mat-raised-button (click)="logout()">{{ t('account.logout') }}</button>
 </div>

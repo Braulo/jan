@@ -1,11 +1,10 @@
-'use strict'
+'use strict';
 
-const db = require('../db')
-const express = require('express')
-const { query, body, validationResult } = require( 'express-validator' )
-const { v4: uuidv4 } = require( 'uuid' )
+const { db } = require('../db');
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -41,15 +40,17 @@ const router = express.Router()
  *                   type: string
  */
 router.get('/:family/members', (req, res, next) => {
-    db.query('SELECT * FROM familymembers WHERE family = ?', [req.params.family])
-        .then(([rows]) => res.json({
-            ResponseId: uuidv4(),
-            ResponseDateTime: Date.now(),
-            Result: rows.map(_ => _.member),
-            Message: "Success"
-        }))
-        .catch(next)
-})
+  db.query('SELECT * FROM familymembers WHERE family = ?', [req.params.family])
+    .then(([rows]) =>
+      res.json({
+        ResponseId: uuidv4(),
+        ResponseDateTime: Date.now(),
+        Result: rows.map((_) => _.member),
+        Message: 'Success',
+      }),
+    )
+    .catch(next);
+});
 
 /**
  * @swagger
@@ -89,15 +90,17 @@ router.get('/:family/members', (req, res, next) => {
  *                   type: string
  */
 router.post('/:family/:member', (req, res, next) => {
-    db.execute('INSERT INTO familymembers (family, member) values (?, ?)', [req.params.family, req.params.member])
-        .then(() => res.json({
-            ResponseId: uuidv4(),
-            ResponseDateTime: Date.now(),
-            Result: true,
-            Message: "Success"
-        }))
-        .catch(next)
-})
+  db.execute('INSERT INTO familymembers (family, member) values (?, ?)', [req.params.family, req.params.member])
+    .then(() =>
+      res.json({
+        ResponseId: uuidv4(),
+        ResponseDateTime: Date.now(),
+        Result: true,
+        Message: 'Success',
+      }),
+    )
+    .catch(next);
+});
 
 /**
  * @swagger
@@ -130,11 +133,20 @@ router.post('/:family/:member', (req, res, next) => {
  *                   type: string
  */
 router.get('/:family', (req, res, next) => {
-    db.query('SELECT * FROM shoppinglist WHERE family = ?', [req.params.family])
-        .then(([rows]) => res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: { progress: rows.map(_ => _.status).reduce((prev, cur, i, arr) => prev + cur, 0) / rows.length * 2,
-            items: rows }, Message: "Success" }))
-        .catch(next)
-})
+  db.query('SELECT * FROM shoppinglist WHERE family = ?', [req.params.family])
+    .then(([rows]) =>
+      res.json({
+        ResponseId: uuidv4(),
+        ResponseDateTime: Date.now(),
+        Result: {
+          progress: (rows.map((_) => _.status).reduce((prev, cur, i, arr) => prev + cur, 0) / rows.length) * 2,
+          items: rows,
+        },
+        Message: 'Success',
+      }),
+    )
+    .catch(next);
+});
 
 /**
  * @swagger
@@ -187,35 +199,56 @@ router.get('/:family', (req, res, next) => {
  *                   type: string
  */
 router.post('/:family', (req, res, next) => {
-    const id = uuidv4()
-    db.execute('INSERT INTO shoppinglist (id, family, owner, thumbnail, title) values (?, ?, ?, ?, ?)', [id, req.params.family, req.body.owner, req.body.thumbnail, req.body.title])
-        .then(() => res.json({
-            ResponseId: id,
-            ResponseDateTime: Date.now(),
-            Result: true,
-            Message: "Success"
-        }))
-        .catch(next)
-})
+  const id = uuidv4();
+  db.execute('INSERT INTO shoppinglist (id, family, owner, thumbnail, title) values (?, ?, ?, ?, ?)', [
+    id,
+    req.params.family,
+    req.body.owner,
+    req.body.thumbnail,
+    req.body.title,
+  ])
+    .then(() =>
+      res.json({
+        ResponseId: id,
+        ResponseDateTime: Date.now(),
+        Result: true,
+        Message: 'Success',
+      }),
+    )
+    .catch(next);
+});
 
 router.get('/', (req, res, next) => {
-    db.query('SELECT * FROM family')
-        .then(([rows]) => res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: "Success" }))
-        .catch(next)
-})
+  db.query('SELECT * FROM family')
+    .then(([rows]) =>
+      res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: 'Success' }),
+    )
+    .catch(next);
+});
+
+router.get('/getmyfamilies/:user', (req, res, next) => {
+  db.query(
+    'SELECT * FROM family INNER JOIN familymembers ON family.id=familymembers.family where familymembers.member = ?',
+    [req.params.user],
+  )
+    .then(([rows]) =>
+      res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: 'Success' }),
+    )
+    .catch(next);
+});
 
 router.post('/', (req, res, next) => {
-    const id = uuidv4()
-    db.execute('INSERT INTO family (id, title, image) values (?, ?, ?)', [id, req.body.title, req.body.image])
-        .then(() => res.json({
-            ResponseId: id,
-            ResponseDateTime: Date.now(),
-            Result: true,
-            Message: "Success"
-        }))
-        .catch(next)
-})
+  const id = uuidv4();
+  db.execute('INSERT INTO family (id, title, image) values (?, ?, ?)', [id, req.body.title, req.body.image])
+    .then(() =>
+      res.json({
+        ResponseId: id,
+        ResponseDateTime: Date.now(),
+        Result: true,
+        Message: 'Success',
+      }),
+    )
+    .catch(next);
+});
 
-module.exports = router
-
- 
+module.exports = router;

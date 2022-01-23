@@ -7,25 +7,28 @@
   $background: mat.get-color-from-palette(map-get($theme, background), background);
   $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
 
-  .auth-dialog-wrapper {
-    height: auto;
-    width: 25vw;
-    height: 40vh;
+  mat-dialog-container {
+    background-color: mat-color($accent) !important;
 
+    mat-error {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  }
+  .auth-dialog-wrapper {
     .auth-nav {
       display: flex;
       justify-content: space-around;
-      margin: 0rem 0rem 2rem;
+      padding: 0.5rem;
 
       .active {
-        background-color: mat-color($primary);
-        border-radius: 20rem;
+        color: mat-color($primary);
       }
 
       h2 {
         cursor: pointer;
         text-align: center;
-        padding: 0.3rem !important;
+        padding: 0.5rem !important;
       }
     }
   }

@@ -6,7 +6,6 @@ import { IsloggedinGuard } from './shared/guards/isloggedin.guard';
 const routes: Routes = [
   {
     path: 'reset-password/:id',
-    // canActivate: [IsloggedinGuard],
     component: ResetPasswordCallbackComponent,
   },
   {
@@ -15,8 +14,9 @@ const routes: Routes = [
     loadChildren: () => import('./features/user/user.module').then((m) => m.UserModule),
   },
   {
-    path: 'shoppinglist',
-    loadChildren: () => import('./features/shoppinglist/shoppinglist.module').then((m) => m.ShoppinglistModule),
+    path: 'families',
+    // canActivate: [IsloggedinGuard],
+    loadChildren: () => import('./features/family/family.module').then((m) => m.FamilyModule),
   },
   {
     path: 'settings',
@@ -24,8 +24,13 @@ const routes: Routes = [
     loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
   },
   {
+    path: 'shoppinglist',
+    canActivate: [IsloggedinGuard],
+    loadChildren: () => import('./features/shoppinglist/shoppinglist.module').then((m) => m.ShoppinglistModule),
+  },
+  {
     path: '**',
-    redirectTo: 'shoppinglist',
+    redirectTo: 'families',
   },
 ];
 

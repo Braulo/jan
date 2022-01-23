@@ -1,33 +1,35 @@
-<div *transloco="let t" class="navbar-wrapper">
-  <h1 routerLink="/shoppinglist" style="cursor: pointer">jan👌</h1>
-  <nav>
-    <ul class="navbar-links">
-      <li>{{ (currentUser | async)?.email }}</li>
-      <li>
-        <button *ngIf="currentUser | async; else loginButton" color="foreground" mat-icon-button routerLink="account">
+<div *transloco="let t" class="navbar">
+  <div class="options-start">
+    <div *ngIf="this.currentUser | async">
+      <button mat-button [routerLink]="['families']" routerLinkActive="active-link">
+        <h2>My Families</h2>
+      </button>
+      <button mat-button [routerLink]="['shoppinglist']" routerLinkActive="active-link">
+        <h2>My Shoppinglists</h2>
+      </button>
+    </div>
+  </div>
+  <div class="options-end">
+    <div *ngIf="this.currentUser | async as user; else noUser" class="account">
+      <div class="user" routerLink="account" routerLinkActive="active-link">
+        <button color="foreground" mat-icon-button>
           <mat-icon class="icon" onselectstart="return false" aria-hidden="false">account_circle</mat-icon>
         </button>
-        <ng-template #loginButton>
-          <button color="foreground" mat-icon-button (click)="openAuthdialog()">{{ t('navbar.login') }}</button>
-        </ng-template>
-      </li>
-      <li>
-        <button color="foreground" mat-icon-button (click)="toggleTheme()">
-          <mat-icon
-            class="icon"
-            onselectstart="return false"
-            aria-hidden="false"
-            matTooltip="{{ t('navbar.toggletheme') }}"
-          >
-            {{ this.currentTheme === 'dark-theme' ? 'brightness_high' : 'bedtime' }}</mat-icon
-          >
-        </button>
-      </li>
-      <li *ngIf="currentUser | async">
-        <button mat-icon-button routerLink="settings">
-          <mat-icon class="icon" onselectstart="return false" aria-hidden="false"> settings </mat-icon>
-        </button>
-      </li>
-    </ul>
-  </nav>
+        <p>{{ user?.username }}</p>
+      </div>
+      <button mat-icon-button [routerLink]="['settings']" routerLinkActive="active-link">
+        <mat-icon class="icon" onselectstart="return false" aria-hidden="false"> settings </mat-icon>
+      </button>
+    </div>
+    <button color="foreground" mat-icon-button (click)="toggleTheme()">
+      <mat-icon class="icon" onselectstart="return false" aria-hidden="false">
+        {{ this.currentTheme === 'dark-theme' ? 'brightness_high' : 'bedtime' }}</mat-icon
+      >
+    </button>
+    <ng-template #noUser>
+      <button color="primary" mat-raised-button (click)="openAuthdialog()">
+        <p>Login</p>
+      </button>
+    </ng-template>
+  </div>
 </div>

@@ -1,0 +1,54 @@
+<div class="families-wrapper">
+  <div *ngIf="this.currentUser | async; else noUser">
+    <h1>Create new Family</h1>
+    <form class="add-family" [formGroup]="this.newFamilyForm" (submit)="createNewFamily()">
+      <mat-form-field appearance="outline">
+        <mat-label>Family Name</mat-label>
+        <input matInput type="text" formControlName="name" />
+        <mat-error *ngIf="this.newFamilyForm.get('name').errors">Please enter a valid name</mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Family Members</mat-label>
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let user of this.selectedUsers" (removed)="remove(user)">
+            {{ user.username }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="Username"
+            formControlName="members"
+            #usernameInput
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let user of this.userSearch | async" [value]="user">
+            {{ user.username }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-icon-button color="primary" type="submit" [disabled]="!this.newFamilyForm.valid">
+        <mat-icon class="icon" onselectstart="return false" style="font-size: 2rem"> add_circle </mat-icon>
+      </button>
+    </form>
+
+    <div class="all-my-families">
+      <ul>
+        <li class="family-item" *ngFor="let family of this.myFamilies | async">
+          <h2>{{ family.title }}</h2>
+          <div>
+            <button color="primary" mat-button (click)="showFamily(family)">Shopping</button>
+            <button color="primary" mat-button (click)="showFamily(family)">Show</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <ng-template #noUser>
+    <h2 style="text-align: center">Please Login or Register</h2>
+  </ng-template>
+</div>

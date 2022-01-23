@@ -12,10 +12,13 @@
     </mat-form-field>
 
     <mat-error>{{ error | async }}</mat-error>
-    <button mat-raised-button type="submit" [disabled]="!loginForm.valid">{{ t('auth.login.login') }}</button>
+    <button color="primary" mat-raised-button type="submit" [disabled]="!loginForm.valid">Login</button>
     <br />
-    <button mat-raised-button>
-      <a href="http://localhost:3001/api/auth/external/google?clientId=Jan">{{ t('auth.login.google') }}</a>
-    </button>
+    <a href="http://localhost:3001/api/auth/external/google?clientId=Jan">
+      <div class="content">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" />
+        <p style="color: black">{{ t('auth.login.google') }}</p>
+      </div>
+    </a>
   </form>
 </div>

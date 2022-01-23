@@ -62,6 +62,7 @@ export const checkToken = async (req: Request, res: Response) => {
       ResponseId: 'asdfasd',
       ResponseDateTime: new Date(),
     };
+
     return res.status(500).json(response);
   } catch (error) {
     const response: ResponseModel<any> = {
@@ -128,7 +129,7 @@ export const createAccessToken = (user: User) => {
       accessTokenVersion: user.accessTokenVersion,
     },
     user.realmApplication.clientSecret,
-    { expiresIn: '2m' },
+    { expiresIn: '5d' },
   );
 };
 

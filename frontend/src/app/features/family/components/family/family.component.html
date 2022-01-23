@@ -1,0 +1,32 @@
+<div class="family-dialog-wrapper">
+  <h1>{{ (this.family | async).title }}</h1>
+  <h2>Family members:</h2>
+  <ul>
+    <li *ngFor="let user of (this.family | async).members">
+      <h2>{{ user.username }}</h2>
+    </li>
+  </ul>
+  <form class="add-user-form" [formGroup]="this.newMemberForm" (submit)="addUser()">
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>New Member</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="member"
+        [matAutocomplete]="auto"
+        [value]="this.selectedUser?.username"
+      />
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="userSelected($event)">
+        <mat-option *ngFor="let user of this.userSearch | async" [value]="user">
+          {{ user.username }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-icon-button color="primary" type="submit" [disabled]="!this.newMemberForm.valid">
+      <mat-icon class="icon" onselectstart="return false" style="font-size: 2rem"> add_circle </mat-icon>
+    </button>
+  </form>
+  <div style="text-align: center">
+    <button mat-raised-button color="primary">Delete</button>
+  </div>
+</div>

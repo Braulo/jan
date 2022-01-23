@@ -2,19 +2,26 @@ import express from 'express';
 import {
   banUserById,
   getAllUsersByRealmId,
+  getUserById,
+  getUsersByUsername,
   logoutUserById,
   unbanUserById,
   updateUser,
 } from '../controllers/user.controller';
+import { checkIfUserIsMasterRealmAdmin } from '../utils/realmRoles.utils';
 
 export const userRouter = express.Router();
 
-userRouter.get('/getallusersinrealm/:realmId', getAllUsersByRealmId);
+userRouter.get('/getUsersByUsername/:username', getUsersByUsername);
 
-userRouter.get('/logout/:id', logoutUserById);
+userRouter.get('/getUserById/:userId', getUserById);
 
-userRouter.get('/ban/:id', banUserById);
+userRouter.get('/getallusersinrealm/:realmId', checkIfUserIsMasterRealmAdmin, getAllUsersByRealmId);
 
-userRouter.get('/unban/:id', unbanUserById);
+userRouter.get('/logout/:id', checkIfUserIsMasterRealmAdmin, logoutUserById);
 
-userRouter.put('', updateUser);
+userRouter.get('/ban/:id', checkIfUserIsMasterRealmAdmin, banUserById);
+
+userRouter.get('/unban/:id', checkIfUserIsMasterRealmAdmin, unbanUserById);
+
+userRouter.put('', checkIfUserIsMasterRealmAdmin, updateUser);

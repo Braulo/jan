@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
-const db = require('../db')
-const express = require('express')
-const { query, body, validationResult } = require( 'express-validator' )
-const { v4: uuidv4 } = require( 'uuid' )
+const { db } = require('../db');
+const express = require('express');
+const { query, body, validationResult } = require('express-validator');
+const { v4: uuidv4 } = require('uuid');
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -53,10 +53,12 @@ const router = express.Router()
  *                   type: string
  */
 router.get('/:list', (req, res, next) => {
-    db.query('SELECT * FROM listitem WHERE shoppinglist = ?', [req.params.list])
-        .then(([rows]) => res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: "Success" }))
-        .catch(next)
-})
+  db.query('SELECT * FROM listitem WHERE shoppinglist = ?', [req.params.list])
+    .then(([rows]) =>
+      res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: 'Success' }),
+    )
+    .catch(next);
+});
 
 /**
  * @swagger
@@ -103,15 +105,22 @@ router.get('/:list', (req, res, next) => {
  *                   type: string
  */
 router.post('/:list', (req, res, next) => {
-    const id = uuidv4()
-    db.execute('INSERT INTO listitem (id, owner, family, shoppinglist) values (?, ?, ?, ?)', [id, req.body.owner, req.body.family, req.params.list])
-        .then(() => res.json({
-            ResponseId: id,
-            ResponseDateTime: Date.now(),
-            Result: true,
-            Message: "Success"
-        }))
-        .catch(next)
-})
+  const id = uuidv4();
+  db.execute('INSERT INTO listitem (id, owner, family, shoppinglist) values (?, ?, ?, ?)', [
+    id,
+    req.body.owner,
+    req.body.family,
+    req.params.list,
+  ])
+    .then(() =>
+      res.json({
+        ResponseId: id,
+        ResponseDateTime: Date.now(),
+        Result: true,
+        Message: 'Success',
+      }),
+    )
+    .catch(next);
+});
 
-module.exports = router
+module.exports = router;

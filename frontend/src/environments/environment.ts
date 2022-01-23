@@ -7,6 +7,7 @@ export const environment = {
   authServiceUrl: 'http://localhost:3001/api',
   //Todo
   coreServiceUrl: 'http://localhost:0000',
+  shoppingServiceUrl: 'http://localhost:3204',
 };
 
 /*

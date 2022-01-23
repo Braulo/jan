@@ -2,10 +2,16 @@
 @import '../app/app.component.scss';
 @import '../app/shared/components/navbar/navbar.component.scss';
 @import '../app/features/auth/components/auth-dialog/auth-dialog.component.scss';
+@import '../app/features/shoppinglist/components/shoppinglists/shoppinglists.component.scss';
+@import '../app/features/user/components/account/account.component.scss';
+@import '../app/features/family/components/families/families.component.scss';
 
 @mixin jan-custom-components-theme($theme) {
   @include angular-material-theme($theme);
   @include app-component-theme($theme);
   @include navbar-component-theme($theme);
   @include authdialog-component-theme($theme);
+  @include shoppinglist-component-theme($theme);
+  @include account-component-theme($theme);
+  @include families-component-theme($theme);
 }

@@ -1,0 +1,26 @@
+<!--Todo dropdown mit allen familien-->
+<!-- <h1>change family</h1> -->
+<div class="shoppinglists-wrapper">
+  <div class="add-list">
+    <h1>Create new Shoppinglist</h1>
+    <form [formGroup]="addListForm" (submit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>List name</mat-label>
+        <input matInput type="text" formControlName="listName" />
+        <mat-error *ngIf="addListForm.get('listName').errors">Please enter a valid name</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>You Families</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let family of this.myFamilies | async" [value]="family.title">
+            {{ family.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button color="primary" type="submit" [disabled]="!this.addListForm.valid">
+        <mat-icon class="icon" onselectstart="return false" style="font-size: 2rem"> add_circle </mat-icon>
+      </button>
+    </form>
+    <div class="all-shoppinglists"></div>
+  </div>
+</div>

@@ -13,7 +13,13 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { ResetPasswordCallbackComponent } from './components/reset-password-callback/reset-password-callback.component';
 
 @NgModule({
-  declarations: [AuthDialogComponent, LoginComponent, RegisterComponent, ResetPasswordComponent, ResetPasswordCallbackComponent],
+  declarations: [
+    AuthDialogComponent,
+    LoginComponent,
+    RegisterComponent,
+    ResetPasswordComponent,
+    ResetPasswordCallbackComponent,
+  ],
   imports: [
     CommonModule,
     SharedModule,

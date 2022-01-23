@@ -58,6 +58,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // User Auth (For All Skyhook Clients)
 app.use('/api/auth', authRouter);
 
+// Get user stuff
+app.use('/api/user', isAuth, userRouter);
+
 // Crud Realm (For RealmAdmins Only)
 app.use('/api/realm', isAuth, checkIfUserIsMasterRealmAdmin, realmRouter);
 
@@ -66,9 +69,6 @@ app.use('/api/realmapplication', isAuth, checkIfUserIsMasterRealmAdmin, realmApp
 
 // CRUD Realm Roles (For RealmAdmins Only)
 app.use('/api/realmrole', isAuth, checkIfUserIsMasterRealmAdmin, realmRolesRouter);
-
-// CRUD User (For RealmAdmins Only)
-app.use('/api/user', isAuth, checkIfUserIsMasterRealmAdmin, userRouter);
 
 // CRUD RealmApplicationURL (For RealmAdminsOnly)
 app.use('/api/realmapplicationurl', isAuth, checkIfUserIsMasterRealmAdmin, realmApplicationURLRouter);

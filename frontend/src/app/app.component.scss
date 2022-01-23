@@ -8,9 +8,12 @@
   $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
 
   .main {
-    height: 100vh;
-    width: 100vw;
     background-color: $background;
     color: $foreground;
+
+    .content {
+      height: 95vh;
+      overflow: auto;
+    }
   }
 }
