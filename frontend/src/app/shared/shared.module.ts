@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,6 +35,8 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatTooltipModule,
     MatAutocompleteModule,
     MatChipsModule,
+    MatCheckboxModule,
+    MatTableModule,
   ],
   exports: [
     NavbarComponent,
@@ -48,6 +52,8 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatIconModule,
     MatAutocompleteModule,
     MatChipsModule,
+    MatCheckboxModule,
+    MatTableModule,
   ],
 })
 export class SharedModule {}

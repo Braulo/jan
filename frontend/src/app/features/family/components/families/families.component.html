@@ -41,7 +41,7 @@
         <li class="family-item" *ngFor="let family of this.myFamilies | async">
           <h2>{{ family.title }}</h2>
           <div>
-            <button color="primary" mat-button (click)="showFamily(family)">Shopping</button>
+            <button color="primary" mat-button matTooltip="Todo">Shopping</button>
             <button color="primary" mat-button (click)="showFamily(family)">Show</button>
           </div>
         </li>

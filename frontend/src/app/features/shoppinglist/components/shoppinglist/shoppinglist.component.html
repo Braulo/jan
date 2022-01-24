@@ -1,0 +1,74 @@
+<div class="shoppinglist-wrapper">
+  <div *ngIf="this.shoppinglist | async as list; else notFound">
+    <div class="header">
+      <div class="shoppinglistname">
+        <button mat-icon-button color="primary" [routerLink]="['/shoppinglist']">
+          <mat-icon class="icon" onselectstart="return false" style="font-size: 2rem">arrow_back</mat-icon>
+        </button>
+        <h1>{{ list?.title.toUpperCase() }}</h1>
+        <h1>{{ list?.family.title }}</h1>
+      </div>
+      <div>
+        <button color="primary" mat-button>Edit</button>
+        <button color="primary" mat-raised-button (click)="deleteShoppinglist()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="list-content">
+    <form class="add-item-form" [formGroup]="this.itemForm" (submit)="addItem()">
+      <h1>Add something to your list</h1>
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>New Item</mat-label>
+          <input matInput type="text" formControlName="name" />
+          <mat-error *ngIf="this.itemForm.get('name').errors">Please enter a valid name</mat-error>
+        </mat-form-field>
+        <button mat-icon-button color="primary" type="submit" [disabled]="!this.itemForm.valid">
+          <mat-icon class="icon" onselectstart="return false" style="font-size: 2rem"> add_circle </mat-icon>
+        </button>
+      </div>
+    </form>
+
+    <div class="list-items">
+      <table mat-table [dataSource]="this.shoppinglistItems | async">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <p>Status</p>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox color="primary" (change)="upadateStatus($event.checked, row)" [checked]="row.status">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef><p>Name</p></th>
+          <td mat-cell *matCellDef="let element">
+            <p>
+              {{ element.name }}
+            </p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef style="text-align: end">
+            <p>Options</p>
+          </th>
+          <td mat-cell *matCellDef="let row" style="text-align: end">
+            <button mat-icon-button color="primary" (click)="deleteListItem(row)">
+              <mat-icon class="icon" onselectstart="return false">clear</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['select', 'name', 'options']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['select', 'name', 'options']"></tr>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #notFound>
+    <h1>List not found :(</h1>
+  </ng-template>
+</div>

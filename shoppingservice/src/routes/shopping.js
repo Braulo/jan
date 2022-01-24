@@ -106,10 +106,12 @@ router.get('/:list', (req, res, next) => {
  */
 router.post('/:list', (req, res, next) => {
   const id = uuidv4();
-  db.execute('INSERT INTO listitem (id, owner, family, shoppinglist) values (?, ?, ?, ?)', [
+  db.execute('INSERT INTO listitem (id, owner, family, status, name, shoppinglist) values (?, ?, ?, ?, ?, ?)', [
     id,
     req.body.owner,
     req.body.family,
+    req.body.status,
+    req.body.name,
     req.params.list,
   ])
     .then(() =>
@@ -119,6 +121,33 @@ router.post('/:list', (req, res, next) => {
         Result: true,
         Message: 'Success',
       }),
+    )
+    .catch(next);
+});
+
+// Delete shoppinglist
+router.delete('/:shoppinglist', (req, res, next) => {
+  db.query('DELETE FROM shoppinglist WHERE shoppinglist.id = ?', [req.params.shoppinglist])
+    .then(([rows]) =>
+      res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: 'Success' }),
+    )
+    .catch(next);
+});
+
+// Update list item
+router.put('/:item', (req, res, next) => {
+  db.query('UPDATE listitem SET listitem.status = ? WHERE listitem.id = ?', [req.body.status, req.params.item])
+    .then(([rows]) =>
+      res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: 'Success' }),
+    )
+    .catch(next);
+});
+
+// Delete list item
+router.delete('/item/:item', (req, res, next) => {
+  db.query('DELETE FROM listitem WHERE listitem.id = ?', [req.params.item])
+    .then(([rows]) =>
+      res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: 'Success' }),
     )
     .catch(next);
 });

@@ -11,8 +11,8 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>You Families</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let family of this.myFamilies | async" [value]="family.title">
+        <mat-select (selectionChange)="this.selectedFamily = $event.value">
+          <mat-option *ngFor="let family of this.myFamilies | async" [value]="family">
             {{ family.title }}
           </mat-option>
         </mat-select>
@@ -21,6 +21,13 @@
         <mat-icon class="icon" onselectstart="return false" style="font-size: 2rem"> add_circle </mat-icon>
       </button>
     </form>
-    <div class="all-shoppinglists"></div>
+    <div class="all-shoppinglists">
+      <ul>
+        <li *ngFor="let shoppinglist of this.myShoppinglists | async">
+          <h2>{{ shoppinglist.title }} {{ shoppinglist.family.title }}</h2>
+          <button color="primary" mat-button routerLink="{{ shoppinglist.id }}">Show</button>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

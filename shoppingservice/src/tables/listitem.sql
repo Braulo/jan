@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS listitem (
     owner varchar(48),
     family varchar(48),
     shoppinglist varchar(48),
+    status int default 0,
+    name varchar(48),
 
     PRIMARY KEY (id)
 );

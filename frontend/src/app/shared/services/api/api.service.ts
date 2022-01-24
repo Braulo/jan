@@ -34,7 +34,9 @@ export class ApiService {
     return this.httpClient.post<T>(url + endpoint, payload).pipe(catchError((err) => this.errorHandler<T>(err)));
   }
 
-  put() {}
+  put<T>(url: string, endpoint: string, payload: any) {
+    return this.httpClient.put<T>(url + endpoint, payload);
+  }
   delete<T>(url: string, endpoint: string) {
     return this.httpClient.delete<T>(url + endpoint).pipe(catchError((err) => this.errorHandler<T>(err)));
   }

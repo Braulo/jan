@@ -1,6 +1,6 @@
 @use '~@angular/material' as mat;
 
-@mixin shoppinglist-component-theme($theme) {
+@mixin shoppinglists-component-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, danger);
@@ -25,6 +25,13 @@
       background-color: mat-color($accent);
       border-radius: 0.5rem;
       padding: 1rem;
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+      }
     }
   }
 }
