@@ -1,7 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { addMemberToFamilyAction, getMembersForFamilyAction } from '@features/family/FamilyStore/family.actions';
+import { getCurrentUser } from '@features/auth/authStore/auth.selectors';
+import {
+  addMemberToFamilyAction,
+  deleteFamilyAction,
+  getMembersForFamilyAction,
+  removeMemberFromFamilyAction,
+} from '@features/family/FamilyStore/family.actions';
 import { selectEntityById } from '@features/family/FamilyStore/family.selectors';
 import { Store } from '@ngrx/store';
 import { EMPTY, Observable } from 'rxjs';
@@ -21,6 +27,7 @@ export class FamilyComponent implements OnInit {
   public newMemberForm: FormGroup;
   public userSearch: Observable<User[]>;
   public selectedUser: User;
+  public currentUser: Observable<User>;
 
   constructor(
     public dialogRef: MatDialogRef<FamilyComponent>,
@@ -44,6 +51,7 @@ export class FamilyComponent implements OnInit {
         return EMPTY;
       }),
     );
+    this.currentUser = this.store.select(getCurrentUser);
 
     this.store.dispatch(getMembersForFamilyAction({ familyId: this.data.family.id }));
 
@@ -61,8 +69,16 @@ export class FamilyComponent implements OnInit {
 
   addUser() {
     this.store.dispatch(addMemberToFamilyAction({ familyId: this.data.family.id, member: this.selectedUser }));
-
     this.selectedUser = null;
     this.newMemberForm.get('member').updateValueAndValidity();
+  }
+
+  deleteFamily() {
+    this.store.dispatch(deleteFamilyAction({ familyId: this.data.family.id }));
+    this.dialogRef.close();
+  }
+
+  removeFamilyMember(user: User) {
+    this.store.dispatch(removeMemberFromFamilyAction({ userId: user.id, familyId: this.data.family.id }));
   }
 }

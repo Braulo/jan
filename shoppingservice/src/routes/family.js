@@ -226,6 +226,27 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
+// Delete family by id
+router.delete('/:family', (req, res, next) => {
+  db.query('DELETE FROM family where family.id  = ?', req.params.family)
+    .then(([rows]) =>
+      res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: 'Success' }),
+    )
+    .catch(next);
+});
+
+// Delete family member from family
+router.delete('/:family/:user', (req, res, next) => {
+  db.query('DELETE FROM familymembers where familymembers.family = ? AND familymembers.member = ? ', [
+    req.params.family,
+    req.params.user,
+  ])
+    .then(([rows]) =>
+      res.json({ ResponseId: uuidv4(), ResponseDateTime: Date.now(), Result: rows, Message: 'Success' }),
+    )
+    .catch(next);
+});
+
 router.get('/getmyfamilies/:user', (req, res, next) => {
   db.query(
     'SELECT * FROM family INNER JOIN familymembers ON family.id=familymembers.family where familymembers.member = ?',

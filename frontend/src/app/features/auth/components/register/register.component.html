@@ -27,8 +27,6 @@
     </div>
 
     <mat-error>{{ error | async }}</mat-error>
-    <button color="primary" mat-raised-button type="submit" [disabled]="!registerForm.valid">
-      {{ t('auth.register.register') }}
-    </button>
+    <button color="primary" mat-raised-button type="submit" [disabled]="!registerForm.valid">Register</button>
   </form>
 </div>

@@ -1,6 +1,6 @@
 <div class="families-wrapper">
   <div *ngIf="this.currentUser | async; else noUser">
-    <h1>Create new Family</h1>
+    <h1 style="text-align: center">Create new Family</h1>
     <form class="add-family" [formGroup]="this.newFamilyForm" (submit)="createNewFamily()">
       <mat-form-field appearance="outline">
         <mat-label>Family Name</mat-label>
@@ -37,7 +37,7 @@
     </form>
 
     <div class="all-my-families">
-      <ul>
+      <ul *ngIf="(this.myFamilies | async).length > 0; else noFamilies">
         <li class="family-item" *ngFor="let family of this.myFamilies | async">
           <h2>{{ family.title }}</h2>
           <div>
@@ -46,6 +46,9 @@
           </div>
         </li>
       </ul>
+      <ng-template #noFamilies>
+        <h2>You have no family :(</h2>
+      </ng-template>
     </div>
   </div>
   <ng-template #noUser>

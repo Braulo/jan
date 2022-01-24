@@ -1,25 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  map,
-  switchMap,
-  mergeMap,
-  withLatestFrom,
-  concatMap,
-  retry,
-  retryWhen,
-  tap,
-  delay,
-  take,
-} from 'rxjs/operators';
+import { catchError, map, switchMap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of, forkJoin, EMPTY } from 'rxjs';
 import * as FamilyActions from './family.actions';
 import { FamilyService } from '../services/family.service';
 import { Store } from '@ngrx/store';
 import { getCurrentUser } from '@features/auth/authStore/auth.selectors';
 import { UserService } from 'src/app/shared/services/user/user.service';
-import { selectEntityById } from './family.selectors';
 
 @Injectable()
 export class FamilyEffects {
@@ -57,9 +44,6 @@ export class FamilyEffects {
           return this.familyService.getMyFamilies(user.id).pipe(
             map((res) => {
               return FamilyActions.getMyFamiliesSuccessAction({ families: res.Result });
-            }),
-            catchError((error) => {
-              return of(error);
             }),
           );
         }
@@ -120,6 +104,38 @@ export class FamilyEffects {
               });
             }),
           );
+      }),
+      catchError((error) => {
+        return of(FamilyActions.familyErrorAction({ err: error }));
+      }),
+    ),
+  );
+
+  delteFamilyById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FamilyActions.deleteFamilyAction),
+      switchMap(({ familyId }) => {
+        return this.familyService.deleteFamilyById(familyId).pipe(
+          map(() => {
+            return FamilyActions.deleteFamilySuccessAction({ familyId });
+          }),
+        );
+      }),
+      catchError((error) => {
+        return of(FamilyActions.familyErrorAction({ err: error }));
+      }),
+    ),
+  );
+
+  removeFamilyMemberById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FamilyActions.removeMemberFromFamilyAction),
+      switchMap(({ userId, familyId }) => {
+        return this.familyService.removeMemberFromFamily(userId, familyId).pipe(
+          map(() => {
+            return FamilyActions.removeMemberFromFamilySuccessAction({ familyId, userId });
+          }),
+        );
       }),
       catchError((error) => {
         return of(FamilyActions.familyErrorAction({ err: error }));

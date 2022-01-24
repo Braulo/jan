@@ -33,4 +33,12 @@ export class FamilyService {
   getMembersForFamily(familyId: string): Observable<any> {
     return this.apiService.get(this.shoppingServiceUrl, this.endpoint + '/' + familyId + '/members');
   }
+
+  deleteFamilyById(familyId: string): Observable<any> {
+    return this.apiService.delete(this.shoppingServiceUrl, this.endpoint + '/' + familyId);
+  }
+
+  removeMemberFromFamily(userId: string, familyId: string): Observable<any> {
+    return this.apiService.delete(this.shoppingServiceUrl, this.endpoint + '/' + familyId + '/' + userId);
+  }
 }

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TranslocoHttpLoaderService } from '@features/i18n/services/transloco-http-loader.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SnackbarService } from '../snackbar/snackbar.service';
@@ -34,7 +35,9 @@ export class ApiService {
   }
 
   put() {}
-  delete() {}
+  delete<T>(url: string, endpoint: string) {
+    return this.httpClient.delete<T>(url + endpoint).pipe(catchError((err) => this.errorHandler<T>(err)));
+  }
 
   private errorHandler<T>(err: any): Observable<T> {
     this.snackbarService.show('something went wrong');

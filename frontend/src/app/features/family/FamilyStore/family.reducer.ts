@@ -37,6 +37,22 @@ export const reducer = createReducer(
       state,
     );
   }),
+  on(FamilyActions.deleteFamilySuccessAction, (state, { familyId }) => {
+    return adapter.removeOne(familyId, state);
+  }),
+  on(FamilyActions.removeMemberFromFamilySuccessAction, (state, { familyId, userId }) => {
+    const newMembers = [...state.entities[familyId].members].filter((member) => member.id !== userId);
+
+    return adapter.updateOne(
+      {
+        id: familyId,
+        changes: {
+          members: newMembers,
+        },
+      },
+      state,
+    );
+  }),
   on(logoutSuccessAction, (state) => {
     return adapter.removeAll(state);
   }),

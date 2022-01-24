@@ -37,4 +37,21 @@ export const addMemberToFamilySuccessAction = createAction(
   props<{ update: Update<Family> }>(),
 );
 
+export const deleteFamilyAction = createAction('[Family] Delete family action', props<{ familyId: string }>());
+
+export const deleteFamilySuccessAction = createAction(
+  '[Family] Delete family success action',
+  props<{ familyId: string }>(),
+);
+
+export const removeMemberFromFamilyAction = createAction(
+  '[Family] Remove family member action',
+  props<{ userId: string; familyId: string }>(),
+);
+
+export const removeMemberFromFamilySuccessAction = createAction(
+  '[Family] Remove family member success action',
+  props<{ userId: string; familyId: string }>(),
+);
+
 export const familyErrorAction = createAction('[Family] Family error', props<{ err: any }>());

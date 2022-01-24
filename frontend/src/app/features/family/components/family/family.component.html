@@ -1,9 +1,18 @@
 <div class="family-dialog-wrapper">
-  <h1>{{ (this.family | async).title }}</h1>
+  <h1>{{ (this.family | async)?.title }}</h1>
   <h2>Family members:</h2>
   <ul>
-    <li *ngFor="let user of (this.family | async).members">
+    <li *ngFor="let user of (this.family | async)?.members">
       <h2>{{ user.username }}</h2>
+      <button
+        mat-icon-button
+        color="primary"
+        *ngIf="(this.currentUser | async).username !== user.username"
+        matTooltip="Remove user from family"
+        (click)="removeFamilyMember(user)"
+      >
+        <mat-icon class="icon" onselectstart="return false">person_remove</mat-icon>
+      </button>
     </li>
   </ul>
   <form class="add-user-form" [formGroup]="this.newMemberForm" (submit)="addUser()">
@@ -27,6 +36,6 @@
     </button>
   </form>
   <div style="text-align: center">
-    <button mat-raised-button color="primary">Delete</button>
+    <button mat-raised-button color="primary" (click)="deleteFamily()">Delete</button>
   </div>
 </div>
