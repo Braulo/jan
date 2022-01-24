@@ -7,6 +7,9 @@
   $background: mat.get-color-from-palette(map-get($theme, background), background);
   $foreground: mat.get-color-from-palette(map-get($theme, foreground), foreground);
 
+  mat-form-field {
+    margin: 0.5rem;
+  }
   .shoppinglists-wrapper {
     height: 100%;
     display: flex;

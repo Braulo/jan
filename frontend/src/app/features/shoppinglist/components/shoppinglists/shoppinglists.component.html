@@ -22,12 +22,16 @@
       </button>
     </form>
     <div class="all-shoppinglists">
-      <ul>
-        <li *ngFor="let shoppinglist of this.myShoppinglists | async">
+      <ul *ngIf="this.myShoppinglists | async as shoppinglists">
+        <li *ngFor="let shoppinglist of shoppinglists">
           <h2>{{ shoppinglist.title }} {{ shoppinglist.family.title }}</h2>
           <button color="primary" mat-button routerLink="{{ shoppinglist.id }}">Show</button>
         </li>
       </ul>
+
+      <div *ngIf="(this.myShoppinglists | async)?.length <= 0">
+        <h2>You have no shopping lists :(</h2>
+      </div>
     </div>
   </div>
 </div>
