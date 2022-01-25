@@ -259,7 +259,6 @@ router.get('/getmyfamilies/:user', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-	console.log(req.body);
   const id = uuidv4();
   db.execute('INSERT INTO family (id, title, image) values (?, ?, ?)', [id, req.body.title, req.body.image])
     .then(() =>
