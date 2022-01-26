@@ -17,11 +17,6 @@ export class ShoppinglistService {
 
   constructor(private apiService: ApiService) {}
 
-  // Todo => create family
-  // Todo => add member to family
-  // Todo => create list
-  // Todo => add list to family
-
   addShoppinglistToFamily(list: Shoppinglist) {
     return this.apiService.post(this.url, this.endpointFamily + '/' + (list.family as any).id, list);
   }

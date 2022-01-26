@@ -285,7 +285,6 @@ const forgotPassword = async (req: Request, res: Response, next: NextFunction) =
       .leftJoinAndSelect('user.realmApplication', 'realmApplication')
       .where(`realmApplication.clientId = '${clientId}'`)
       .leftJoinAndSelect('realmApplication.realmApplicationURLs', 'realmApplicationURLs')
-      // Todo: Ob du dumm bist?
       .andWhere(`user.email = '${email}'`)
       .getOne();
 

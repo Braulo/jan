@@ -4,7 +4,6 @@ import { RealmRole } from '../entities/realmRole.entity';
 import { User } from '../entities/user.entity';
 
 // POST => /api/realmRole/realmID
-// ToDo
 const addRealmRoleToUserById = async (req: Request, res: Response) => {
   const { roleId, id } = req.body;
 

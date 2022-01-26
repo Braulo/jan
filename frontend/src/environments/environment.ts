@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   authServiceUrl: 'http://localhost:3001/api',
-  //Todo
-  coreServiceUrl: 'http://localhost:0000',
   shoppingServiceUrl: 'http://localhost:3204',
+
+  coreApiUrl: 'http://localhost:1337/api',
 };
 
 /*

@@ -19,7 +19,6 @@ export class AuthService {
 
   private endpoint: string = '/auth';
 
-  // Todo sollte eig der core sein aber der gute herr studendenererao mach nicht hinne
   private authService: string = environment.authServiceUrl;
 
   register(newUser: {

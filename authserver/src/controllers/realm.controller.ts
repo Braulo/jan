@@ -9,7 +9,6 @@ const getAllRealms = async (req: Request, res: Response) => {
 };
 
 // GET => /api/realm/:id
-// ToDo
 const getRealmById = async (req: Request, res: Response) => {
   const { id } = req.params;
 

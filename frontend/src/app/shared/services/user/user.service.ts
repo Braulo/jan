@@ -17,8 +17,4 @@ export class UserService {
   public getUsersByUsername(username: string): Observable<User[]> {
     return this.apiService.get(this.authService, this.endpoint + `/getUsersByUsername/${username}?clientId=Jan`);
   }
-
-  public getUserbyId(userId: string): Observable<User[]> {
-    return this.apiService.get(this.authService, this.endpoint + `/getUserById/${userId}?clientId=Jan`);
-  }
 }

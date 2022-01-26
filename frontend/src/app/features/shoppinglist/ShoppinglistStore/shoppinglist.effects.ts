@@ -126,7 +126,7 @@ export class ShoppinglistEffect {
       ofType(ShoppinglistActions.updateListItemStatusAction),
       switchMap(({ listItemId, status }) => {
         return this.shoppinglistService.updateListItemStatus(listItemId, status).pipe(
-          map((res) => {
+          map(() => {
             return ShoppinglistActions.updateListItemStatusSuccessAction({ listItemId, status });
           }),
         );

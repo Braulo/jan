@@ -43,7 +43,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
-// ToDo Cors setup
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -59,7 +58,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/api/auth', authRouter);
 
 // Get user stuff
-app.use('/api/user', isAuth, userRouter);
+app.use('/api/user', userRouter);
 
 // Crud Realm (For RealmAdmins Only)
 app.use('/api/realm', isAuth, checkIfUserIsMasterRealmAdmin, realmRouter);

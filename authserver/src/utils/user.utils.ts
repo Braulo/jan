@@ -20,7 +20,6 @@ export const checkUsernameInRealmApplication = async (req: Request, res: Respons
       relations: ['realmApplication'],
     });
 
-    // Todo Test
     if (user && user.realmApplication.id === realmApplication.id) {
       const response: ResponseModel<any> = {
         Message: `Username (${username}) already taken!`,

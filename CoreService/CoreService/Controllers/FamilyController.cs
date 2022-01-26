@@ -12,7 +12,7 @@ namespace CoreService.Controllers
     public class FamilyController : ControllerBase
     {
         const string FamilyServiceUrl = "http://host.docker.internal:3204/family";
-        const string authServiceUrl = "http://host.docker.internal:3001/user/getUserById";
+        const string authServiceUrl = "http://host.docker.internal:3001/api/user";
 
 
         // GET: api/<FamilyController>/userid
@@ -29,13 +29,14 @@ namespace CoreService.Controllers
                 {
                     return response.Content.ReadAsStringAsync().Result;
                 }
+
                 return null;
             }
         }
 
         [Route("getfamilymembers/{id}")]
         [HttpGet]
-        public async Task<string> GetMembersForFamily(string id)
+        public async Task<List<User>> GetMembersForFamily(string id)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -45,19 +46,20 @@ namespace CoreService.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var content = response.Content.ReadAsStringAsync().Result;
-
-                    var ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(content);
-
-                    foreach(var member in family.members)
+                    var ResponseModel = JsonConvert.DeserializeObject<ResponseModel<string[]>>(content);
+                    List<User> users = new List<User>();
+                    
+                    foreach(var userid in ResponseModel.Result)
                     {
-                        var FamilyMemberContent = new StringContent(member, Encoding.UTF8, "application/json");
+                        var userResponse = await client.GetAsync(authServiceUrl + "/getUserById/" + userid + "?clientId=Jan");
+                        var userContent = userResponse.Content.ReadAsStringAsync().Result;
+                        var user = JsonConvert.DeserializeObject<User>(userContent);
 
-                        var memberResponse = await client.PostAsync(FamilyServiceUrl+"/"+ResponseModel.ResponseId+"/"+member, null);
-                        response.EnsureSuccessStatusCode();
+                        users.Add(user);
                     }
-
-                    var test = authServiceUrl + "/" + id+"?clientId=Jan";
+                    return users;
                 }
+
                 return null;
             }
         }
@@ -67,8 +69,6 @@ namespace CoreService.Controllers
         [HttpPost]
         public async Task<string> Post([FromBody] Family family)
         {
-            Console.Write("add family", family);
-
             using (HttpClient client = new HttpClient())
             {
                 var SerializedFamily = JsonConvert.SerializeObject(family);
@@ -76,16 +76,13 @@ namespace CoreService.Controllers
                 var response = await client.PostAsync(FamilyServiceUrl, Familycontent);
                 response.EnsureSuccessStatusCode();
                 var content = await response.Content.ReadAsStringAsync();
-                var ResponseModel = JsonConvert.DeserializeObject<ResponseModel>(content);
+                var ResponseModel = JsonConvert.DeserializeObject<ResponseModel<bool>>(content);
 
                 foreach(var member in family.members)
                 {
-                    var FamilyMemberContent = new StringContent(member, Encoding.UTF8, "application/json");
-
-                    var memberResponse = await client.PostAsync(FamilyServiceUrl+"/"+ResponseModel.ResponseId+"/"+member, null);
+                    await client.PostAsync(FamilyServiceUrl+"/"+ ResponseModel.ResponseId + "/" + member, null);
                     response.EnsureSuccessStatusCode();
                 }
-
                 return content;
             }
         }
@@ -107,16 +104,52 @@ namespace CoreService.Controllers
             }
         }
 
-        // PUT api/<FamilyController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost]
+        [Route("AddMemberToFamily/{family}/{user}")]
+        public async Task<User> AddMemberToFamily(string family, string user)
         {
+
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.PostAsync(FamilyServiceUrl + "/" + family + "/" + user, null);
+                response.EnsureSuccessStatusCode();
+                var content = await response.Content.ReadAsStringAsync();
+                var ResponseModel = JsonConvert.DeserializeObject<ResponseModel<bool>>(content);
+
+                var responseUser = await client.GetAsync(authServiceUrl + "/getUserById/" + user + "?clientId=Jan");
+                var contentUser = await responseUser.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<User>(contentUser);
+            }
         }
 
+        // Delete family
         // DELETE api/<FamilyController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<string> Delete(string id)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.DeleteAsync(FamilyServiceUrl + "/" + id);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+
+            }
+        }
+
+        // Remove/ Delete user from family
+        // DELETE api/family/familyid/userid
+        [HttpDelete]
+        [Route("removefamilymember/{family}/{member}")]
+        public async Task<string> RemoveFamilyMember(string family, string member)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.DeleteAsync(FamilyServiceUrl + "/" + family + "/" + member);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+
+            }
         }
     }
 }

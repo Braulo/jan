@@ -31,7 +31,6 @@ namespace CoreService.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.Write("Success");
                     return response.Content.ReadAsStringAsync().Result;
                 }
                 return null;

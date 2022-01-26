@@ -11,9 +11,7 @@ import { environment } from 'src/environments/environment';
 export class FamilyService {
   private endpoint: string = '/family';
 
-  private shoppingServiceUrl: string = environment.shoppingServiceUrl;
-
-  private coreAPI: string = 'http://localhost:1337/api';
+  private coreAPI: string = environment.coreApiUrl;
 
   constructor(private apiService: ApiService) {}
 
@@ -29,7 +27,7 @@ export class FamilyService {
   }
 
   addMemberToFamily(familyId: string, member: User) {
-    return this.apiService.post(this.shoppingServiceUrl, this.endpoint + '/' + familyId + '/' + member.id, {});
+    return this.apiService.post(this.coreAPI, this.endpoint + '/AddMemberToFamily/' + familyId + '/' + member.id, {});
   }
 
   getMyFamilies(userId: string): Observable<any> {
@@ -37,14 +35,14 @@ export class FamilyService {
   }
 
   getMembersForFamily(familyId: string): Observable<any> {
-    return this.apiService.get(this.shoppingServiceUrl, this.endpoint + '/' + familyId + '/members');
+    return this.apiService.get(this.coreAPI, this.endpoint + '/getfamilymembers/' + familyId);
   }
 
   deleteFamilyById(familyId: string): Observable<any> {
-    return this.apiService.delete(this.shoppingServiceUrl, this.endpoint + '/' + familyId);
+    return this.apiService.delete(this.coreAPI, this.endpoint + '/' + familyId);
   }
 
   removeMemberFromFamily(userId: string, familyId: string): Observable<any> {
-    return this.apiService.delete(this.shoppingServiceUrl, this.endpoint + '/' + familyId + '/' + userId);
+    return this.apiService.delete(this.coreAPI, this.endpoint + '/removefamilymember/' + familyId + '/' + userId);
   }
 }

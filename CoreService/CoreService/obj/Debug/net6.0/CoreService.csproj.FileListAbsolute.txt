@@ -26,3 +26,13 @@ C:\Users\FlorianStudener\jan\CoreService\CoreService\obj\Debug\net6.0\ref\CoreSe
 C:\Users\FlorianStudener\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.pdb
 C:\Users\FlorianStudener\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.genruntimeconfig.cache
 C:\Users\FlorianStudener\jan\CoreService\CoreService\bin\Debug\net6.0\Newtonsoft.Json.dll
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.csproj.AssemblyReference.cache
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.GeneratedMSBuildEditorConfig.editorconfig
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.AssemblyInfoInputs.cache
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.AssemblyInfo.cs
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.csproj.CoreCompileInputs.cache
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.MvcApplicationPartsAssemblyInfo.cs
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.MvcApplicationPartsAssemblyInfo.cache
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.dll
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\ref\CoreService.dll
+\\wsl.localhost\Ubuntu\home\braul\hhek\jan\CoreService\CoreService\obj\Debug\net6.0\CoreService.pdb
