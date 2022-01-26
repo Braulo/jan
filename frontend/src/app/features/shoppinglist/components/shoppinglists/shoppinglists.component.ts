@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getMyFamiliesAction } from '@features/family/FamilyStore/family.actions';
 import { selectAllMyFamilies } from '@features/family/FamilyStore/family.selectors';
@@ -8,7 +8,7 @@ import {
 } from '@features/shoppinglist/ShoppinglistStore/shoppinglist.actions';
 import { selectAllShoppinglist } from '@features/shoppinglist/ShoppinglistStore/shoppinglist.selectors';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Family } from 'src/app/shared/models/family.model';
 import { Shoppinglist } from 'src/app/shared/models/shoppinglist.model';
 
@@ -17,11 +17,12 @@ import { Shoppinglist } from 'src/app/shared/models/shoppinglist.model';
   templateUrl: './shoppinglists.component.html',
   styleUrls: ['./shoppinglists.component.scss'],
 })
-export class ShoppingslistComponent implements OnInit {
+export class ShoppingslistComponent implements OnInit, OnDestroy {
   public addListForm: FormGroup;
   public myFamilies: Observable<Family[]>;
   public selectedFamily: Family;
   public myShoppinglists: Observable<Shoppinglist[]>;
+  private subscription: Subscription;
 
   constructor(private fb: FormBuilder, private store: Store) {}
 
@@ -32,13 +33,13 @@ export class ShoppingslistComponent implements OnInit {
 
     this.store.dispatch(getMyFamiliesAction());
     this.myFamilies = this.store.select(selectAllMyFamilies);
-    this.myFamilies.subscribe((res) => {
+    this.myShoppinglists = this.store.select(selectAllShoppinglist);
+
+    this.subscription = this.myFamilies.subscribe((res) => {
       if (res.length > 0) {
         this.store.dispatch(getAllMyShoppinglistsAction());
       }
     });
-
-    this.myShoppinglists = this.store.select(selectAllShoppinglist);
   }
 
   submit() {
@@ -48,5 +49,9 @@ export class ShoppingslistComponent implements OnInit {
         list: { family: this.selectedFamily, title: listName, id: null, owner: null, status: null, thumbnail: null },
       }),
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

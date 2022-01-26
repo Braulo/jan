@@ -22,16 +22,17 @@ services:
     ports:
       - 8080:8080
   frontend:
-    build: ./frontend
+    build: #./frontend
       # For build (with nginx)
-      # context: ./frontend
-      # dockerfile: Dockerfilebuild
+      context: ./frontend
+      dockerfile: Dockerfilebuild
     ports:
       # For build (with nginx)
-      # - '80:80'
-      - '4200:4200'
+      - '80:80'
+      # - '4200:4200'
     volumes:
       - ./frontend:/app
+      - /app/node_modules
   authserver:
     build: ./authserver
     restart: always
@@ -39,6 +40,7 @@ services:
       - '3001:3001'
     volumes:
       - ./authserver:/app
+      - /app/node_modules
     depends_on:
       database:
         condition: service_healthy

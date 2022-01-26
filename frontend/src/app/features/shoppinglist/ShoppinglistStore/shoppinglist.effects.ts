@@ -110,7 +110,7 @@ export class ShoppinglistEffect {
       ofType(ShoppinglistActions.deleteShoppinglistItemAction),
       switchMap(({ listItemId }) => {
         return this.shoppinglistService.delteShoppinglistItem(listItemId).pipe(
-          map((res) => {
+          map(() => {
             return ShoppinglistActions.deleteShoppinglistItemSuccessAction({ listItemId });
           }),
         );

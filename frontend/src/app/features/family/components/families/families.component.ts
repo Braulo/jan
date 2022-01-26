@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { EMPTY, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { EMPTY, Observable, Subscription } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { User } from 'src/app/shared/models/user.model';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -19,14 +19,14 @@ import { getCurrentUser } from '@features/auth/authStore/auth.selectors';
   templateUrl: './families.component.html',
   styleUrls: ['./families.component.scss'],
 })
-export class FamiliesComponent implements OnInit {
+export class FamiliesComponent implements OnInit, OnDestroy {
   public newFamilyForm: FormGroup;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  selectedUsers: User[] = [];
-  userSearch: Observable<User[]>;
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
+  public selectedUsers: User[] = [];
+  public userSearch: Observable<User[]>;
   public currentUser: Observable<User>;
-
   public myFamilies: Observable<Family[]>;
+  private subscription: Subscription;
 
   @ViewChild('usernameInput') usernameInput: ElementRef<HTMLInputElement>;
 
@@ -51,7 +51,7 @@ export class FamiliesComponent implements OnInit {
     this.userSearch = this.newFamilyForm.get('members').valueChanges.pipe(
       debounceTime(500),
       switchMap((value) => {
-        if (value) {
+        if (value && !value.email) {
           return this.userService.getUsersByUsername(value);
         }
         return EMPTY;
@@ -59,7 +59,7 @@ export class FamiliesComponent implements OnInit {
     );
 
     this.currentUser = this.store.select(getCurrentUser);
-    this.currentUser.subscribe((res) => {
+    this.subscription = this.currentUser.subscribe((res) => {
       if (res) {
         this.store.dispatch(getMyFamiliesAction());
         this.myFamilies = this.store.select(selectAllMyFamilies);
@@ -110,5 +110,9 @@ export class FamiliesComponent implements OnInit {
         family,
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

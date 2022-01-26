@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { getMyFamiliesAction } from '@features/family/FamilyStore/family.actions';
@@ -10,16 +10,10 @@ import {
   getAllMyShoppinglistsAction,
   getShoppinglistItemsAction,
   updateListItemStatusAction,
-  updateListItemStatusSuccessAction,
 } from '@features/shoppinglist/ShoppinglistStore/shoppinglist.actions';
-import {
-  selectAllListItems,
-  selectAllShoppinglist,
-  selectAllShoppinglists,
-  selectEntityById,
-} from '@features/shoppinglist/ShoppinglistStore/shoppinglist.selectors';
+import { selectAllListItems, selectEntityById } from '@features/shoppinglist/ShoppinglistStore/shoppinglist.selectors';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ListItem } from 'src/app/shared/models/listitem.model';
 import { Shoppinglist } from 'src/app/shared/models/shoppinglist.model';
 
@@ -28,11 +22,12 @@ import { Shoppinglist } from 'src/app/shared/models/shoppinglist.model';
   templateUrl: './shoppinglist.component.html',
   styleUrls: ['./shoppinglist.component.scss'],
 })
-export class ShoppinglistComponent implements OnInit {
+export class ShoppinglistComponent implements OnInit, OnDestroy {
   public shoppinglist: Observable<Shoppinglist>;
   public itemForm: FormGroup;
   public shoppinglistId: string;
   public shoppinglistItems: Observable<ListItem[]>;
+  private subscription: Subscription;
 
   constructor(private activatedRoute: ActivatedRoute, private store: Store, private fb: FormBuilder) {}
 
@@ -44,7 +39,7 @@ export class ShoppinglistComponent implements OnInit {
     });
 
     this.store.dispatch(getMyFamiliesAction());
-    this.store.select(selectAllMyFamilies).subscribe((res) => {
+    this.subscription = this.store.select(selectAllMyFamilies).subscribe((res) => {
       if (res.length > 0) {
         this.store.dispatch(getAllMyShoppinglistsAction());
       }
@@ -84,5 +79,9 @@ export class ShoppinglistComponent implements OnInit {
 
   deleteListItem(listItem: ListItem) {
     this.store.dispatch(deleteShoppinglistItemAction({ listItemId: listItem.id }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
