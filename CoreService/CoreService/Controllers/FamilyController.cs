@@ -11,7 +11,7 @@ namespace CoreService.Controllers
     [ApiController]
     public class FamilyController : ControllerBase
     {
-        const string FamilyServiceUrl = "http://localhost:3204/family";
+        const string FamilyServiceUrl = "http://host.docker.internal:3204/family";
 
         // GET: api/<FamilyController>
         [HttpGet]

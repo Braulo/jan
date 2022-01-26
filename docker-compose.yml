@@ -75,3 +75,10 @@ services:
     depends_on:
       database:
         condition: service_healthy
+  coreservice:
+    build: ./CoreService/CoreService
+    ports:
+      - '1337:80'
+    depends_on:
+      database:
+        condition: service_healthy
