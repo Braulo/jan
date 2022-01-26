@@ -7,7 +7,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       builder =>
                       {
-                          builder.WithOrigins("*","http://localhost:4200").AllowAnyMethod()
+                          builder.WithOrigins("http://localhost","http://host.docker.internal", "http://host.docker.internal:80", "http://host.docker.internal:4200","http://localhost:80","http://localhost:4200").AllowAnyMethod()
                         .AllowAnyHeader();
                       });
 });
