@@ -15,21 +15,14 @@ export class FamilyEffects {
       ofType(FamilyActions.createFamilyAction),
       withLatestFrom(this.store.select(getCurrentUser)),
       switchMap(([{ family }, currentUser]) => {
-        var familyId;
-        return this.familyService
-          .createFamily(family)
-          .pipe(
-            map((res) => {
-              const newMembers = [...family.members];
-              newMembers.push(currentUser);
-              return newMembers.map((user) => {
-                familyId = res.ResponseId;
-                return this.familyService.addMemberToFamily(res.ResponseId, user);
-              });
-            }),
-            mergeMap((members) => forkJoin(members)),
-          )
-          .pipe(map(() => FamilyActions.createFamilySuccessAction({ response: { ...family, id: familyId } })));
+        family = { ...family, members: [...family.members] };
+        family.members.push(currentUser);
+
+        return this.familyService.createFamily(family).pipe(
+          map(({ ResponseId }) => {
+            return FamilyActions.createFamilySuccessAction({ response: { ...family, id: ResponseId } });
+          }),
+        );
       }),
       catchError((err) => of(FamilyActions.familyErrorAction({ err: err }))),
     ),
@@ -40,14 +33,11 @@ export class FamilyEffects {
       ofType(FamilyActions.getMyFamiliesAction),
       withLatestFrom(this.store.select(getCurrentUser)),
       switchMap(([_, user]) => {
-        if (user) {
-          return this.familyService.getMyFamilies(user.id).pipe(
-            map((res) => {
-              return FamilyActions.getMyFamiliesSuccessAction({ families: res.Result });
-            }),
-          );
-        }
-        return EMPTY;
+        return this.familyService.getMyFamilies(user.id).pipe(
+          map((res) => {
+            return FamilyActions.getMyFamiliesSuccessAction({ families: res.Result });
+          }),
+        );
       }),
       catchError((error) => {
         return of(FamilyActions.familyErrorAction({ err: error }));

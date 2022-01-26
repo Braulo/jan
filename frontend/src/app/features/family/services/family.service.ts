@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getCurrentUser } from '@features/auth/authStore/auth.selectors';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Family } from 'src/app/shared/models/family.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ApiService } from 'src/app/shared/services/api/api.service';
@@ -16,10 +13,19 @@ export class FamilyService {
 
   private shoppingServiceUrl: string = environment.shoppingServiceUrl;
 
+  private coreAPI: string = 'http://localhost:1337/api';
+
   constructor(private apiService: ApiService) {}
 
   createFamily(family: Family): Observable<any> {
-    return this.apiService.post(this.shoppingServiceUrl, this.endpoint, family);
+    return this.apiService.post(this.coreAPI, this.endpoint, {
+      ...family,
+      image: '',
+      id: '',
+      members: family.members.map((user) => {
+        return user.id;
+      }),
+    });
   }
 
   addMemberToFamily(familyId: string, member: User) {
@@ -27,7 +33,7 @@ export class FamilyService {
   }
 
   getMyFamilies(userId: string): Observable<any> {
-    return this.apiService.get(this.shoppingServiceUrl, this.endpoint + '/getmyfamilies/' + userId);
+    return this.apiService.get(this.coreAPI, this.endpoint + '/' + userId);
   }
 
   getMembersForFamily(familyId: string): Observable<any> {
